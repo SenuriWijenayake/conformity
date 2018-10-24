@@ -7,8 +7,6 @@ exports.getDataForChart = function (questionNumber, userAnswer) {
 		var answers = question.answers;
 		var sizeValues = utils.randValues(question.isMajority, question.sizeValues);
 
-		console.log(sizeValues);
-
     final = [];
 
     //Set the first answer

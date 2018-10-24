@@ -9,6 +9,17 @@ exports.randValues = function(isMajority, sizeValues){
   var noZeros = [];
   var offset = Math.floor(Math.random() * 4) + 1;
 
+  console.log(sizeValues == [40, 30, 30, 0]);
+  //Determine the offset
+  if (this.areArraysEqual(sizeValues, [50, 40, 10, 0]) ||
+      this.areArraysEqual(sizeValues, [40, 30, 30, 0]) ||
+      this.areArraysEqual(sizeValues, [40, 50, 10, 0]) ||
+      this.areArraysEqual(sizeValues, [30, 40, 30, 0])) {
+
+        offset = 2;
+        console.log("here");
+  }
+
   for (var i = 0; i < sizeValues.length; i++) {
     if (sizeValues[i] != 0){
       noZeros.push(sizeValues[i]);
@@ -96,4 +107,14 @@ exports.getAnswerById = function(answers, id){
       return(answers[i]);
     }
   }
+}
+
+//Function to compare two arrays
+exports.areArraysEqual = function(arr1, arr2){
+  for (var i = 0; i < arr1.length; i++) {
+    if(arr1[i] != arr2[i]){
+      return(false);
+    }
+  }
+  return(true);
 }
