@@ -1,4 +1,10 @@
 $(document).ready(function() {
+    $.get("http://localhost:8080/questions", function( data ) {
+      console.log(JSON.parse(data));
+    });
+  });
+
+$(document).ready(function() {
   $("#finish").click(function() {
     var answersList = [];
     //Loop over all questoins

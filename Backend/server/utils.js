@@ -1,7 +1,7 @@
 /*This file contains the utilities required for the logic on code.js*/
 
 //Importing the questions
-var questions = require('../db/questions');
+exports.questions = require('../db/questions');
 
 //Function to randomize the distribution size values
 exports.randValues = function(isMajority, sizeValues){
@@ -71,9 +71,9 @@ exports.randValues = function(isMajority, sizeValues){
 
 //Function to get question by questionNumber
 exports.getQuestionByNumber = function(number){
-  for (var i = 0; i < questions.length; i++) {
-    if(questions[i].questionNumber == number){
-      return (questions[i]);
+  for (var i = 0; i < this.questions.length; i++) {
+    if(this.questions[i].questionNumber == number){
+      return (this.questions[i]);
     }
   }
 };

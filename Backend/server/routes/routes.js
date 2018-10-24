@@ -12,6 +12,13 @@ var appRouter = function (app) {
     result = JSON.stringify(data);
     res.status(200).send(result);
   });
+
+  //Endpoint to get all the questions and answers
+  app.get('/questions', function(req, res) {
+    data = logic.getAllQuestions();
+    result = JSON.stringify(data);
+    res.status(200).send(result);
+  });
 }
 
 module.exports = appRouter;

@@ -38,6 +38,8 @@ exports.getAllQuestions = function (){
 	var questions = utils.questions;
 	var response = [];
 
+	console.log(utils);
+
 	for (var i = 0; i < questions.length; i++) {
 		var ques = questions[i];
 
