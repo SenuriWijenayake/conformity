@@ -19,7 +19,6 @@
       var chartData = {};
       $.get( "http://localhost:8080/createServer", function(data) {
         chartData = JSON.parse(data);
-        console.log(chartData);
       });
 
       function drawChart() {
@@ -31,10 +30,10 @@
         data.addColumn({type: 'string', role: 'annotation'});
 
         data.addRows([
-          [chartData.answers[0].answer, chartData.answers[0].value, chartData.answers[0].value.toString() + ' %'],
-          [chartData.answers[1].answer, chartData.answers[1].value, chartData.answers[1].value.toString() + ' %'],
-          [chartData.answers[2].answer, chartData.answers[2].value, chartData.answers[2].value.toString() + ' %'],
-          [chartData.answers[3].answer, chartData.answers[3].value, chartData.answers[3].value.toString() + ' %']
+          [chartData.answers[0].answer.toString(), chartData.answers[0].value, chartData.answers[0].value.toString() + ' %'],
+          [chartData.answers[1].answer.toString(), chartData.answers[1].value, chartData.answers[1].value.toString() + ' %'],
+          [chartData.answers[2].answer.toString(), chartData.answers[2].value, chartData.answers[2].value.toString() + ' %'],
+          [chartData.answers[3].answer.toString(), chartData.answers[3].value, chartData.answers[3].value.toString() + ' %']
         ]);
 
         // Set chart options

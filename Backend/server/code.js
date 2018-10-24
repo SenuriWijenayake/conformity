@@ -1,6 +1,7 @@
 //import the data from the database
 var utils = require('./utils');
 
+//Function to get data for the feedback
 exports.getDataForChart = function (questionNumber, userAnswer) {
 
 		var question = utils.getQuestionByNumber(questionNumber);
@@ -30,4 +31,22 @@ exports.getDataForChart = function (questionNumber, userAnswer) {
 		res.answers = final;
 		res.question = question.questionText;
     return (res);
+};
+
+//Function to create the questions and answers
+exports.getAllQuestions = function (){
+	var questions = utils.questions;
+	var response = [];
+
+	for (var i = 0; i < questions.length; i++) {
+		var ques = questions[i];
+
+		var q = {};
+		q.questionText = ques.questionText;
+		q.questionImg = ques.img ? ques.img : null;
+		q.answers = ques.answers;
+
+		response.push(q);
+	}
+	return(response);
 };
