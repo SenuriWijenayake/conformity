@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+
+      // Get the data for the chart
+      var chartData = {};
+      $.get( "http://localhost:8080/createServer", function(data) {
+        chartData = JSON.parse(data);
+        console.log(chartData);
+      });
+
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Answer');
+        data.addColumn('number', 'Votes (%)');
+        data.addColumn({type: 'string', role: 'annotation'});
+
+        data.addRows([
+          [chartData.answers[0].answer, chartData.answers[0].value, chartData.answers[0].value.toString() + ' %'],
+          [chartData.answers[1].answer, chartData.answers[1].value, chartData.answers[1].value.toString() + ' %'],
+          [chartData.answers[2].answer, chartData.answers[2].value, chartData.answers[2].value.toString() + ' %'],
+          [chartData.answers[3].answer, chartData.answers[3].value, chartData.answers[3].value.toString() + ' %']
+        ]);
+
+        // Set chart options
+        var options = {'title': chartData.question,
+                       'width': 700,
+                       'height':500};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+  </body>
+</html>
