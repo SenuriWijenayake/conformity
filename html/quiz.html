@@ -17,7 +17,7 @@
 
       // Get the data for the chart
       var chartData = {};
-      $.get( "http://localhost:8080/createServer", function(data) {
+      $.get("http://localhost:8080/chartData/1/Seville/0.67", function(data) {
         chartData = JSON.parse(data);
       });
 

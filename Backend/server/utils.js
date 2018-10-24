@@ -9,7 +9,6 @@ exports.randValues = function(isMajority, sizeValues){
   var noZeros = [];
   var offset = Math.floor(Math.random() * 4) + 1;
 
-  console.log(sizeValues == [40, 30, 30, 0]);
   //Determine the offset
   if (this.areArraysEqual(sizeValues, [50, 40, 10, 0]) ||
       this.areArraysEqual(sizeValues, [40, 30, 30, 0]) ||
@@ -17,7 +16,6 @@ exports.randValues = function(isMajority, sizeValues){
       this.areArraysEqual(sizeValues, [30, 40, 30, 0])) {
 
         offset = 2;
-        console.log("here");
   }
 
   for (var i = 0; i < sizeValues.length; i++) {
