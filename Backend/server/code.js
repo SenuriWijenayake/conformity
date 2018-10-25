@@ -1,5 +1,6 @@
 //import the data from the database
 var utils = require('./utils');
+var bigVar = require('../db/bigFiveVariables');
 
 //Function to get data for the feedback
 exports.getDataForChart = function (questionNumber, userAnswer) {
@@ -50,3 +51,31 @@ exports.getAllQuestions = function (){
 	}
 	return(response);
 };
+
+//Function to process the big five data
+exports.processBigFive = function (){
+
+	answers = {"1":"1","2":"1","3":"1","4":"1","5":"1","6":"1","7":"1","8":"1","9":"1","10":"1","11":"1","12":"1",
+								"13":"2","14":"2","15":"2","16":"2","17":"2","18":"2","19":"2","20":"2","21":"2","22":"2","23":"3",
+								"24":"3","25":"3","26":"3","27":"3","28":"3","29":"3","30":"3","31":"3","32":"3","33":"3","34":"4",
+								"35":"4","36":"4","37":"4","38":"4","39":"4","40":"4","41":"4","42":"4","43":"4","44":"4"};
+
+	var allScores = {};
+
+	for (var i = 0; i < bigVar.length; i++) {
+		var trait = bigVar[i].key;
+		var indexes = bigVar[i].values;
+		var score = 0;
+
+		for (var j = 0; j < indexes.length; j++) {
+			var answer = parseInt(answers[indexes[j].id]);
+			if (indexes[j].isReverse){
+				answer = (5 - answer) + 1;
+			}
+			score = score + answer;
+		}
+
+		allScores[trait] = score;
+	}
+	console.log(allScores);
+}

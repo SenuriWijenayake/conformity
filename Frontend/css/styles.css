@@ -28,7 +28,9 @@
 }
 .submit{
   height: 35px;
-  width: auto;
   font-size: 14px;
   font-weight: bold;
+  text-align: center;
+  width: 50%;
+  margin-left: 25%;
 }

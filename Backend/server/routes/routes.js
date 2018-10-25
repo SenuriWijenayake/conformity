@@ -23,8 +23,11 @@ var appRouter = function (app) {
   });
 
   //Endpoint to process the big five data
-  app.post('/bigFiveData', function(req, res) {
-    res.status(200).send("Success");
+  app.get('/bigFiveData', function(req, res) {
+    console.log("Request received at big five");
+    //answerData = JSON.stringify(req.body);
+    response = logic.processBigFive();
+    res.status(200).send("<h2>Thank You!</h2><p>Responses were submited successfully</p>");
   });
 }
 
