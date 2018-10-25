@@ -1,9 +1,10 @@
 <html>
   <head>
+    <title>Online Quiz</title>
     <!--Load the AJAX API-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/main.js">
+    <script type="text/javascript" src="../js/index.js"></script>
     <script type="text/javascript">
 
       // Load the Visualization API and the corechart package.
@@ -18,7 +19,7 @@
 
       // Get the data for the chart
       var chartData = {};
-      $.get("http://localhost:8080/chartData/1/Seville/0.67", function(data) {
+      $.get("http://localhost:8080/chartData/0/2/309/0.67", function(data) {
         chartData = JSON.parse(data);
       });
 

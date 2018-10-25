@@ -1,12 +1,6 @@
 $(document).ready(function() {
-    $.get("http://localhost:8080/questions", function( data ) {
-      console.log(JSON.parse(data));
-    });
-  });
-
-$(document).ready(function() {
   $("#finish").click(function() {
-    var answersList = [];
+    var answersList = {};
     //Loop over all questoins
     $(".question").each(function() {
       var questionId = $(this).attr("id");
@@ -14,15 +8,19 @@ $(document).ready(function() {
 
       //if Answer isnt provided do not update the answersList
       if (answer !== undefined) {
-        answersList.push({
-          question: questionId,
-          answer: parseInt(answer)
-        });
+        answersList[questionId] = parseInt(answer);
       }
     });
+
     console.log(answersList);
-    $.post("http://localhost:8080/bigFiveData", answersList, function( data ) {
-      console.log(data);
+
+    $.ajax({
+       type: "POST",
+       data: answersList,
+       url: "http://localhost:8080/bigFiveData",
+       success: function(msg){
+         alert("Data submitted successfully!");
+       }
     });
   });
 });
