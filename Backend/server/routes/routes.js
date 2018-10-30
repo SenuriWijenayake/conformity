@@ -1,6 +1,6 @@
 var logic = require('../code');
 
-var appRouter = function (app) {
+var appRouter = function(app) {
   app.get('/chartData/:question/:id/:answer/:confidence', function(req, res) {
 
     var userAnswer = {};
@@ -25,10 +25,10 @@ var appRouter = function (app) {
   //Endpoint to process the big five data
   app.get('/bigFiveData', function(req, res) {
     console.log("Request received at big five");
-    //answerData = JSON.stringify(req.body);
     response = logic.processBigFive();
     res.status(200).send("<h2>Thank You!</h2><p>Responses were submited successfully</p>");
   });
-}
+
+};
 
 module.exports = appRouter;
