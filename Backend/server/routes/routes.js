@@ -23,9 +23,9 @@ var appRouter = function(app) {
   });
 
   //Endpoint to process the big five data
-  app.get('/bigFiveData', function(req, res) {
+  app.post('/bigFiveData', function(req, res) {
     console.log("Request received at big five");
-    response = logic.processBigFive();
+    response = logic.processBigFive(req.body);
     res.status(200).send("<h2>Thank You!</h2><p>Responses were submited successfully</p>");
   });
 
