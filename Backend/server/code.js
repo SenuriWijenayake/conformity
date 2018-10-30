@@ -1,6 +1,7 @@
 //import the data from the database
 var utils = require('./utils');
 var bigVar = require('../db/bigFiveVariables');
+var db = require('../db/database');
 
 //Function to get data for the feedback
 exports.getDataForChart = function (questionNumber, userAnswer) {
@@ -77,5 +78,5 @@ exports.processBigFive = function (){
 
 		allScores[trait] = score;
 	}
-	console.log(allScores);
+	db.saveBigFiveResults (allScores);
 }
