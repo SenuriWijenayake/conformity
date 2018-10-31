@@ -12,7 +12,6 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
   <script type="text/javascript" src="../js/app.js"></script>
-  <script type="text/javascript" src="../js/charts.js"></script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="../css/styles.css">
@@ -20,46 +19,49 @@
 
 <body>
   <div ng-app="app" ng-controller="QuizController">
-    <form class="container">
-      <div class="question-container" style="text-align:center;">
-
-        <div class="row">
-          <h3>1. {{question.questionText}}</h3>
-        </div>
-
-        <div class="row" ng-repeat="answer in question.answers">
-          <div class="col-sm-4">
-            <input type="radio" value="{{answer.id}}" name="answerOptions" ng-model="myAnswer.answerId" class="answer-radio-button" required />
+    <div class="col-sm-6">
+      <form class="form-styles">
+        <div style="text-align:center;">
+          <div class="row">
+            <p class="question-text">1. {{question.questionText}}</p>
           </div>
-          <div class="col-sm-8 answer-label" class="answer-label">
-            <label>{{answer.answer}}</label>
+
+          <div class="row" ng-repeat="answer in question.answers">
+            <div class="col-sm-4">
+              <input type="radio" value="{{answer.id}}" name="answerOptions" ng-model="myAnswer.answerId" class="answer-radio-button" required />
+            </div>
+            <div class="col-sm-8 answer-label" class="answer-label">
+              <label class="radio-text">{{answer.answer}}</label>
+            </div>
+          </div>
+
+          <div>
+            <p class="confidence-text">How sure are you of the selected answer?
+              <br>Move the slider to denote a value.</p>
+          </div>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="0" class="slider" ng-model="myAnswer.confidence" required>
+          </div>
+          <div class="slidecontainer">
+            <label class="col-sm-6 left-marker">1 %</label>
+            <label class="col-sm-6 right-marker">100 %</label>
+          </div>
+
+          <br />
+          <br />
+
+          <div class="button">
+            <input type="submit" ng-click="submitAnswer()" />
           </div>
         </div>
+      </form>
+    </div>
 
-        <br />
-        <br />
-
-        <div class="slidecontainer">
-          <input type="range" min="1" max="100" value="0" class="slider" ng-model="myAnswer.confidence" required>
-        </div>
-        <div class="slidecontainer">
-          <label class="col-sm-6 left-marker">1 %</label>
-          <label class="col-sm-6 right-marker">100 %</label>
-        </div>
-
-        <div ng-style = "{ 'visibility' : (myAnswer.confidence == 1) ? 'visible' : 'hidden' }">
-          <h4 style="margin-top:40px; color: red;"> Select a value for the confidence</h4>
-        </div>
-
-        <br />
-        <br />
-
-        <div class="button">
-          <button type="submit" ng-click="submitAnswer()">Submit Answer</button>
-        </div>
-      </div>
-    </form>
-    <div id="chart_div" style="visibility: hidden"> </div>
+    <div class="col-sm-6 chartdiv">
+      <div id="chart_div" ng-style="{ 'visibility' : (isChartVisible == 1) ? 'visible' : 'hidden' }"></div>
+      <div class="loader" ng-style="{ 'visibility' : (isChartVisible == 0) ? 'visible' : 'hidden' }"></div>
+      <div class="loader-text" ng-style="{ 'visibility' : (isChartVisible == 0) ? 'visible' : 'hidden' }">Loading results.. Please wait.</div>
+    </div>
   </div>
 </body>
 

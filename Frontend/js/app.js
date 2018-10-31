@@ -3,28 +3,28 @@ var api = 'http://localhost:8080';
 
 app.controller('BigFiveController', function($scope, $http) {
   $http({
-       method: 'GET',
-       url: api + '/bigFiveQuestions'
-    }).then(function (response){
-      $scope.questions = response.data;
-    },function (error){
-      console.log("Error occured when loading the big five questions");
-    });
+    method: 'GET',
+    url: api + '/bigFiveQuestions'
+  }).then(function(response) {
+    $scope.questions = response.data;
+  }, function(error) {
+    console.log("Error occured when loading the big five questions");
+  });
 });
 
 app.controller('HomeController', function($scope, $http, $window) {
-  $scope.submitDetails = function(user){
+  $scope.submitDetails = function(user) {
     $http({
-         method: 'POST',
-         url: api + '/user',
-         data: user,
-         type: JSON,
-      }).then(function (response){
-        $window.sessionStorage.setItem ('userId', response.data);
-        $window.location.href = './quiz.html';
-      },function (error){
-        console.log("Error occured when loading the big five questions");
-      });
+      method: 'POST',
+      url: api + '/user',
+      data: user,
+      type: JSON,
+    }).then(function(response) {
+      $window.sessionStorage.setItem('userId', response.data);
+      $window.location.href = './quiz.html';
+    }, function(error) {
+      console.log("Error occured when loading the big five questions");
+    });
   };
 });
 
@@ -33,26 +33,85 @@ app.controller('QuizController', function($scope, $http, $window) {
   $scope.myAnswer.confidence = 1;
   $scope.userId = $window.sessionStorage.getItem('userId');
 
-  $scope.question = {"questionId": 0, "questionText":"What is the capital of Spain?","questionImg":null,"answers":[{"answer":"Barcelona","id":1},{"answer":"Madrid","id":2},{"answer":"Seville","id":3},{"answer":"Lisbon","id":4}]};
+  $scope.question = {
+    "questionId": 0,
+    "questionText": "What is the capital of Spain?",
+    "questionImg": null,
+    "answers": [{
+      "answer": "Barcelona",
+      "id": 1
+    }, {
+      "answer": "Madrid",
+      "id": 2
+    }, {
+      "answer": "Seville",
+      "id": 3
+    }, {
+      "answer": "Lisbon",
+      "id": 4
+    }]
+  };
 
-  $scope.submitAnswer = function(){
-    if ($scope.myAnswer.confidence != 1){
+  $scope.submitAnswer = function() {
+    if ($scope.myAnswer.confidence != 1) {
+      $scope.isChartVisible = 0;
       $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
-      $scope.myAnswer.questionId =  $scope.question.questionId;
+      $scope.myAnswer.questionId = $scope.question.questionId;
       $scope.myAnswer.userId = $scope.userId;
 
-      console.log($scope.myAnswer);
       $http({
-           method: 'POST',
-           url: api + '/chartData',
-           data : $scope.myAnswer,
-           type : JSON,
-        }).then(function (response){
-          console.log(response);
+        method: 'POST',
+        url: api + '/chartData',
+        data: $scope.myAnswer,
+        type: JSON,
+      }).then(function(response) {
+        $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
+        setTimeout(function(){
+          $scope.createChart(response.data)
+        }, 3000);
 
-        },function (error){
-          console.log("Error occured when loading the quiz questions");
-        });
+      }, function(error) {
+        console.log("Error occured when loading the quiz questions");
+      });
     }
-  }
+  };
+
+  $scope.createChart = function(chartData) {
+    console.log("here");
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+    $scope.isChartVisible = 1;
+
+    function drawChart() {
+      // Create the data table.
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Answer');
+      data.addColumn('number', 'Votes (%)');
+      data.addColumn({
+        type: 'string',
+        role: 'annotation'
+      });
+
+      data.addRows([
+        [chartData.answers[0].answer.toString(), chartData.answers[0].value, chartData.answers[0].value.toString() + ' %'],
+        [chartData.answers[1].answer.toString(), chartData.answers[1].value, chartData.answers[1].value.toString() + ' %'],
+        [chartData.answers[2].answer.toString(), chartData.answers[2].value, chartData.answers[2].value.toString() + ' %'],
+        [chartData.answers[3].answer.toString(), chartData.answers[3].value, chartData.answers[3].value.toString() + ' %']
+      ]);
+
+      // Set chart options
+      var options = {
+        'width': 640,
+        'height': 500
+      };
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  };
+
 });
