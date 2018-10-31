@@ -2,6 +2,8 @@ var logic = require('../code');
 
 var appRouter = function(app) {
   app.post('/chartData', function(req, res) {
+
+    console.log("Request received at chart data");
     var userAnswer = {};
 
     userAnswer.userId = req.body.userId;
@@ -9,14 +11,26 @@ var appRouter = function(app) {
     userAnswer.answerId = parseInt(req.body.answerId);
     userAnswer.confidence = parseFloat(req.body.confidence);
 
-    data = logic.getDataForChart(userAnswer);
-    result = JSON.stringify(data);
-    res.status(200).send(result);
+    return new Promise(function(resolve, reject) {
+      logic.saveAnswer(userAnswer).then(function(id) {
+        data = logic.getDataForChart(userAnswer);
+        result = JSON.stringify(data);
+        resolve(res.status(200).send(result));
+      });
+    });
   });
 
   //Endpoint to get all the questions and answers
   app.get('/questions', function(req, res) {
     data = logic.getAllQuestions();
+    result = JSON.stringify(data);
+    res.status(200).send(result);
+  });
+
+  //Endpoint to get a question by id
+  app.post('/question', function(req, res) {
+    console.log(req.body.id);
+    data = logic.getQuestionById(req.body.id);
     result = JSON.stringify(data);
     res.status(200).send(result);
   });
@@ -39,6 +53,23 @@ var appRouter = function(app) {
     console.log("Request received at user data");
     return new Promise(function(resolve, reject) {
       logic.saveUserData(req.body).then(function(id) {
+        resolve(res.status(200).send(id));
+      });
+    });
+  });
+
+  //Endpoint to update answer
+  app.post('/updateAnswer', function(req, res) {
+    console.log("Request received at update answer");
+    var userAnswer = {};
+
+    userAnswer.userId = req.body.userId;
+    userAnswer.questionId = parseInt(req.body.questionId);
+    userAnswer.newAnswerId = parseInt(req.body.answerId);
+    userAnswer.newConfidence = parseFloat(req.body.confidence);
+
+    return new Promise(function(resolve, reject) {
+      logic.updateAnswer(userAnswer).then(function(id) {
         resolve(res.status(200).send(id));
       });
     });

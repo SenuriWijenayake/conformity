@@ -23,7 +23,7 @@
       <form class="form-styles">
         <div style="text-align:center;">
           <div class="row">
-            <p class="question-text">1. {{question.questionText}}</p>
+            <p class="question-text">{{question.questionNumber + 1}}. {{question.questionText}}</p>
           </div>
 
           <div class="row" ng-repeat="answer in question.answers">
@@ -51,7 +51,7 @@
           <br />
 
           <div class="button">
-            <input id="submit-button" class="submit-button" type="submit" ng-click="(count == 0) ? submitAnswer() : next()" />
+            <input id="submit-button" class="submit-button" type="submit" ng-click="(count == 0) ? submitAnswer() : update()" />
           </div>
         </div>
       </form>

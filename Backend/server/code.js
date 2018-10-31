@@ -57,6 +57,16 @@ exports.getAllQuestions = function() {
   return (response);
 };
 
+//Function to get question by Id
+exports.getQuestionById = function(id) {
+  var questions = utils.questions;
+  for (var i = 0; i < questions.length; i++) {
+    if(questions[i].questionNumber == id) {
+        return (questions[i]);
+    }
+  }
+};
+
 //Function to process the big five data
 exports.processBigFive = function(answers) {
 
@@ -92,6 +102,32 @@ exports.saveUserData = function(user) {
   return new Promise(function(resolve, reject) {
     db.saveUser(user).then(function(userId) {
       resolve(userId);
+    });
+  });
+};
+
+//Function to save an answer
+exports.saveAnswer = function(ans) {
+  var answer = {};
+  answer.userId = ans.userId;
+  answer.questionId = ans.questionId;
+  answer.oldAnswerId = ans.answerId;
+  answer.oldConfidence = ans.confidence;
+  answer.newAnswerId = ans.answerId;
+  answer.newConfidence = ans.confidence;
+
+  return new Promise(function(resolve, reject) {
+    db.saveAnswer(answer).then(function(answerId) {
+      resolve(answerId);
+    });
+  });
+};
+
+//Function to update an answer
+exports.updateAnswer = function(answer) {
+  return new Promise(function(resolve, reject) {
+    db.updateAnswer(answer).then(function(answerId) {
+      resolve(answerId);
     });
   });
 };

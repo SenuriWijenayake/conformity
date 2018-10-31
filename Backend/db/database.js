@@ -8,6 +8,7 @@ var db = mongoose.connection;
 //Importing schemas
 var Result = require('./schemas/result');
 var User = require('./schemas/user');
+var Answer = require('./schemas/answer');
 var bigFiveQuestions = require('./bigFiveQuestions');
 
 //Function to save the big five results to the database
@@ -27,7 +28,7 @@ exports.saveBigFiveResults = function(results) {
 };
 
 //Function to save user details
-exports.saveUser = function (user){
+exports.saveUser = function(user) {
   return new Promise(function(resolve, reject) {
     var newUser = new User({
       gender: user.gender,
@@ -42,6 +43,43 @@ exports.saveUser = function (user){
   });
 };
 
+//Function to save an answer
+exports.saveAnswer = function(answer) {
+  return new Promise(function(resolve, reject) {
+    var newAnswer = new Answer({
+      userId: answer.userId,
+      questionId: answer.questionId,
+      oldAnswerId: answer.oldAnswerId,
+      oldConfidence: answer.oldConfidence,
+      newAnswerId: answer.newAnswerId ? answer.newAnswerId : answer.oldAnswerId,
+      newConfidence: answer.newConfidence ? answer.newConfidence : answer.oldConfidence
+    });
+
+    newAnswer.save(function(err, newAnswer) {
+      if (err) reject(err);
+      resolve(newAnswer._id.toString());
+    });
+  });
+};
+
+//Function to update an answer
+exports.updateAnswer = function(answer) {
+  var query = {
+    userId: answer.userId,
+    questionId: answer.questionId
+  };
+  var newData = {
+    newAnswerId: answer.newAnswerId,
+    newConfidence: answer.newConfidence
+  };
+
+  return new Promise(function(resolve, reject) {
+    Answer.findOneAndUpdate(query, newData, {upsert: true}, function(err, newAnswer) {
+      if (err) reject(err);
+      resolve(newAnswer._id.toString());
+    });
+  });
+};
 
 //Function to get the big five questions
 exports.getBigFiveQuestions = function() {

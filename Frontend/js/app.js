@@ -35,7 +35,7 @@ app.controller('QuizController', function($scope, $http, $window) {
   $scope.userId = $window.sessionStorage.getItem('userId');
 
   $scope.question = {
-    "questionId": 0,
+    "questionNumber": 0,
     "questionText": "What is the capital of Spain?",
     "questionImg": null,
     "answers": [{
@@ -57,12 +57,11 @@ app.controller('QuizController', function($scope, $http, $window) {
     if ($scope.myAnswer.confidence != 1) {
       //Disable the button
       $("#submit-button").attr("disabled", "disabled");
-
-      document.getElementById("loader").style.display = "block";
-      document.getElementById("loader-text").style.display = "block";
+      $("#loader").css("display", "block");
+      $("#loader-text").css("display", "block");
 
       $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
-      $scope.myAnswer.questionId = $scope.question.questionId;
+      $scope.myAnswer.questionId = $scope.question.questionNumber;
       $scope.myAnswer.userId = $scope.userId;
 
       $http({
@@ -72,13 +71,11 @@ app.controller('QuizController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
-        setTimeout(function(){
+        setTimeout(function() {
           $scope.createChart(response.data);
         }, 3000);
-
-
       }, function(error) {
-        console.log("Error occured when loading the quiz questions");
+        console.log("Error occured when loading the chart");
       });
     }
   };
@@ -93,6 +90,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
     $("#loader").css("display", "none");
     $("#loader-text").css("display", "none");
+
     $("#chart_div").css("display", "block");
     $("#change-section").css("display", "block");
 
@@ -125,14 +123,57 @@ app.controller('QuizController', function($scope, $http, $window) {
     }
   };
 
-  $scope.yes = function(){
+  $scope.yes = function() {
     $scope.count = 1;
     $("#submit-button").prop("disabled", false);
     $("#change-section").css("display", "none");
   };
 
-  $scope.next = function(){
-    //Create the second answer object
+  $scope.update = function() {
+    //Disable the button
+    $("#submit-button").attr("disabled", "disabled");
+
+    $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
+    $scope.myAnswer.questionId = $scope.question.questionNumber;
+    $scope.myAnswer.userId = $scope.userId;
+
+    $http({
+      method: 'POST',
+      url: api + '/updateAnswer',
+      data: $scope.myAnswer,
+      type: JSON,
+    }).then(function(response) {
+      $scope.next();
+    }, function(error) {
+      console.log("Error occured when updating the answers");
+    });
   };
 
+  $scope.next = function (){
+    $scope.count = 0;
+    $scope.userId = $window.sessionStorage.getItem('userId');
+    var data = {id : parseInt($scope.myAnswer.questionId) + 1};
+
+    $http({
+      method: 'POST',
+      url: api + '/question',
+      data: data,
+      type: JSON,
+    }).then(function(response) {
+
+        $scope.myAnswer = {};
+        $scope.myAnswer.confidence = 1;
+        $scope.question = response.data;
+
+        $("#loader").css("display", "none");
+        $("#loader-text").css("display", "none");
+        $("#chart_div").css("display", "none");
+        $("#change-section").css("display", "none");
+        $("#submit-button").prop("disabled", false);
+
+    }, function(error) {
+      console.log("Error occured when loading the question");
+    });
+
+  };
 });
