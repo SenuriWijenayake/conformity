@@ -1,16 +1,15 @@
 var logic = require('../code');
 
 var appRouter = function(app) {
-  app.get('/chartData/:question/:id/:answer/:confidence', function(req, res) {
-
+  app.post('/chartData', function(req, res) {
     var userAnswer = {};
-    userAnswer.id = parseInt(req.params.id);
-    userAnswer.answer = req.params.answer;
-    userAnswer.confidence = parseFloat(req.params.confidence);
 
-    var ques = parseInt(req.params.question);
+    userAnswer.userId = req.body.userId;
+    userAnswer.questionId = parseInt(req.body.questionId);
+    userAnswer.answerId = parseInt(req.body.answerId);
+    userAnswer.confidence = parseFloat(req.body.confidence);
 
-    data = logic.getDataForChart(ques, userAnswer);
+    data = logic.getDataForChart(userAnswer);
     result = JSON.stringify(data);
     res.status(200).send(result);
   });

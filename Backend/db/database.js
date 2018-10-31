@@ -13,11 +13,11 @@ var bigFiveQuestions = require('./bigFiveQuestions');
 //Function to save the big five results to the database
 exports.saveBigFiveResults = function(results) {
   var result = new Result({
-    extraversion: results.extraversion,
-    agreeableness: results.agreeableness,
-    conscientiousness: results.conscientiousness,
-    neuroticism: results.neuroticism,
-    openness: results.openness
+    Extraversion: results.Extraversion,
+    Agreeableness: results.Agreeableness,
+    Conscientiousness: results.Conscientiousness,
+    Neuroticism: results.Neuroticism,
+    Openness: results.Openness
   });
 
   result.save(function(err) {

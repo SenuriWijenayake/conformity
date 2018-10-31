@@ -4,21 +4,21 @@ var bigVar = require('../db/bigFiveVariables');
 var db = require('../db/database');
 
 //Function to get data for the feedback
-exports.getDataForChart = function(questionNumber, userAnswer) {
+exports.getDataForChart = function(userAnswer) {
 
-  var question = utils.getQuestionByNumber(questionNumber);
+  var question = utils.getQuestionByNumber(userAnswer.questionId);
   var answers = question.answers;
   var sizeValues = utils.randValues(question.isMajority, question.sizeValues);
 
   final = [];
 
   //Set the first answer
-  var selected = utils.getAnswerById(answers, userAnswer.id);
+  var selected = utils.getAnswerById(answers, userAnswer.answerId);
   selected.value = sizeValues[0];
   final.push(selected);
 
   //Get other answers
-  var others = utils.getUnselectedAnswersOrdered(answers, userAnswer.id, question.correctOrder);
+  var others = utils.getUnselectedAnswersOrdered(answers, userAnswer.answerId, question.correctOrder);
 
   //Set values of the other answers
   for (var i = 0; i < others.length; i++) {
@@ -34,6 +34,7 @@ exports.getDataForChart = function(questionNumber, userAnswer) {
   var res = {};
   res.answers = final;
   res.question = question.questionText;
+  console.log(res);
   return (res);
 };
 
@@ -46,6 +47,7 @@ exports.getAllQuestions = function() {
     var ques = questions[i];
 
     var q = {};
+    q.questionId = ques.questionNumber;
     q.questionText = ques.questionText;
     q.questionImg = ques.img ? ques.img : null;
     q.answers = ques.answers;

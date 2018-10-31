@@ -3,11 +3,11 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var resultSchema = new Schema({
-  extraversion: Number,
-  agreeableness: Number,
-  conscientiousness: Number,
-  neuroticism: Number,
-  openness: Number
+  Extraversion: Number,
+  Agreeableness: Number,
+  Conscientiousness: Number,
+  Neuroticism: Number,
+  Openness: Number
 });
 
 var Result = mongoose.model('Result', resultSchema);
