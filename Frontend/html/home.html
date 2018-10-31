@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Welcome!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script type="text/javascript" src="../js/app.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/styles.css">
+</head>
+
+<body>
+
+  <div ng-app="app" ng-controller="HomeController">
+    <div class="container">
+      <div class="row" style="text-align:center;">
+        <div>
+          Welcome to Quiz Master! Thank you for agreeing to participate in this study. <br>
+          To get started, enter your details in the form given below. <br>
+          <br>
+        </div>
+
+        <div class="question-container">
+          <form>
+            <table style="width:100%;">
+              <tr class="row">
+                <td class="col-sm-6 right"> Participant Id: </td>
+                <td class="col-sm-6"> <input type="text" ng-model="user.id" style="float: left;"> </td>
+              </tr>
+
+              <tr class="row">
+                <td class="col-sm-6 right padding-adjust-labels"> Gender: </td>
+                <td class="col-sm-6 padding-adjust-radio">
+                  <input type="radio" ng-model="user.gender" value="female" class="radio-button"> <label class="gender-label"> Female </label>
+                </td>
+              </tr>
+
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6">
+                  <input type="radio" ng-model="user.gender" value="male" class="radio-button"> <label class="gender-label"> Male </label>
+                </td>
+              </tr>
+
+              <tr class="row">
+                <td class="col-sm-6 right padding-adjust-labels"> Age: </td>
+                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" ng-model="user.age" value="1" class="radio-button"> <label class="gender-label"> 18 - 24 </label></td>
+              </tr>
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6"> <input type="radio" ng-model="user.age" value="2" class="radio-button"> <label class="gender-label"> 25 - 30 </label></td>
+              </tr>
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6"> <input type="radio" ng-model="user.age" value="3" class="radio-button"> <label class="gender-label"> Above 30 </label></td>
+              </tr>
+
+              <tr class="row">
+                <td class="col-sm-6 right padding-adjust-labels"> Level of Education: </td>
+                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" ng-model="user.education" value="bsc" class="radio-button"> <label class="gender-label"> Undergraduate student </label></td>
+              </tr>
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6"> <input type="radio" ng-model="user.education" value="msc" class="radio-button"> <label class="gender-label"> MSc student </label></td>
+              </tr>
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6"> <input type="radio" ng-model="user.education" value="phd" class="radio-button"> <label class="gender-label"> PhD student </label></td>
+              </tr>
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6"> <input type="radio" ng-model="user.education" value="higher" class="radio-button"> <label class="gender-label"> Higher </label></td>
+              </tr>
+            </table>
+            <br>
+            <div class="row">
+              <div class="col-sm-12">
+                <button class="submit-details" ng-click="submitDetails(user)">Let's get started!</button>
+              </div>
+            </div>
+          </form>
+        </div>
+</body>
+
+</html>

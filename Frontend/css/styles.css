@@ -34,3 +34,29 @@
   width: 50%;
   margin-left: 25%;
 }
+.right{
+  text-align: right;
+}
+.radio-button{
+  float: left;
+}
+.gender-label{
+  float:left;
+  margin-left: 10px;
+  font-weight: normal;
+}
+.submit-details{
+  height: 35px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.padding-adjust-labels{
+  padding-top:10px;
+}
+.padding-adjust-radio{
+  padding-top: 10px;
+}

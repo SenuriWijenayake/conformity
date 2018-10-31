@@ -1,14 +1,13 @@
-// grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // create a schema
 var resultSchema = new Schema({
-  Extraversion: Number,
-  Agreeableness: Number,
-  Conscientiousness: Number,
-  Neuroticism: Number,
-  Openness: Number
+  extraversion: Number,
+  agreeableness: Number,
+  conscientiousness: Number,
+  neuroticism: Number,
+  openness: Number
 });
 
 var Result = mongoose.model('Result', resultSchema);

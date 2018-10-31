@@ -7,26 +7,44 @@ var db = mongoose.connection;
 
 //Importing schemas
 var Result = require('./schemas/result');
+var User = require('./schemas/user');
 var bigFiveQuestions = require('./bigFiveQuestions');
 
 //Function to save the big five results to the database
 exports.saveBigFiveResults = function(results) {
-    var result = new Result({
-      Extraversion: results.Extraversion,
-      Agreeableness: results.Agreeableness,
-      Conscientiousness: results.Conscientiousness,
-      Neuroticism: results.Neuroticism,
-      Openness: results.Openness
-    });
+  var result = new Result({
+    extraversion: results.extraversion,
+    agreeableness: results.agreeableness,
+    conscientiousness: results.conscientiousness,
+    neuroticism: results.neuroticism,
+    openness: results.openness
+  });
 
-    result.save(function(err) {
-      if (err) throw err;
-      console.log('Results saved successfully!');
-    });
+  result.save(function(err) {
+    if (err) throw err;
+    console.log('Results saved successfully!');
+  });
 };
 
+//Function to save user details
+exports.saveUser = function (user){
+  return new Promise(function(resolve, reject) {
+    var newUser = new User({
+      gender: user.gender,
+      age: user.age,
+      education: user.education
+    });
+
+    newUser.save(function(err, newUser) {
+      if (err) reject(err);
+      resolve(newUser._id.toString());
+    });
+  });
+};
+
+
 //Function to get the big five questions
-exports.getBigFiveQuestions = function(){
+exports.getBigFiveQuestions = function() {
   return (bigFiveQuestions);
 };
 
