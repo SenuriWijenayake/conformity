@@ -29,9 +29,6 @@ app.controller('HomeController', function($scope, $http, $window) {
 });
 
 app.controller('QuizController', function($scope, $http, $window) {
-  $scope.here = function (){
-    console.lo("here");
-  }
   $scope.userId = $window.sessionStorage.getItem('userId');
 
 });
