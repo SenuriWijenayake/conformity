@@ -29,15 +29,14 @@
         <div class="question-container">
           <form>
             <table style="width:100%;">
-              <tr class="row">
+              <!-- <tr class="row">
                 <td class="col-sm-6 right"> Participant Id: </td>
                 <td class="col-sm-6"> <input type="text" ng-model="user.id" style="float: left;"> </td>
-              </tr>
-
+              </tr> -->
               <tr class="row">
                 <td class="col-sm-6 right padding-adjust-labels"> Gender: </td>
                 <td class="col-sm-6 padding-adjust-radio">
-                  <input type="radio" ng-model="user.gender" value="female" class="radio-button"> <label class="gender-label"> Female </label>
+                  <input type="radio" ng-model="user.gender" value="female" class="radio-button" required> <label class="gender-label"> Female </label>
                 </td>
               </tr>
 
@@ -50,7 +49,7 @@
 
               <tr class="row">
                 <td class="col-sm-6 right padding-adjust-labels"> Age: </td>
-                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" ng-model="user.age" value="1" class="radio-button"> <label class="gender-label"> 18 - 24 </label></td>
+                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" ng-model="user.age" value="1" class="radio-button" required> <label class="gender-label"> 18 - 24 </label></td>
               </tr>
               <tr class="row">
                 <td class="col-sm-6 right"></td>
@@ -63,7 +62,7 @@
 
               <tr class="row">
                 <td class="col-sm-6 right padding-adjust-labels"> Level of Education: </td>
-                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" ng-model="user.education" value="bsc" class="radio-button"> <label class="gender-label"> Undergraduate student </label></td>
+                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" ng-model="user.education" value="bsc" class="radio-button" required> <label class="gender-label"> Undergraduate student </label></td>
               </tr>
               <tr class="row">
                 <td class="col-sm-6 right"></td>

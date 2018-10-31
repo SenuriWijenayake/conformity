@@ -12,8 +12,7 @@ app.controller('BigFiveController', function($scope, $http) {
     });
 });
 
-app.controller('HomeController', function($scope, $http) {
-  var api = 'http://localhost:8080';
+app.controller('HomeController', function($scope, $http, $window) {
   $scope.submitDetails = function(user){
     $http({
          method: 'POST',
@@ -21,9 +20,18 @@ app.controller('HomeController', function($scope, $http) {
          data: user,
          type: JSON,
       }).then(function (response){
-
+        $window.sessionStorage.setItem ('userId', response.data);
+        $window.location.href = './quiz.html';
       },function (error){
         console.log("Error occured when loading the big five questions");
       });
   };
+});
+
+app.controller('QuizController', function($scope, $http, $window) {
+  $scope.here = function (){
+    console.lo("here");
+  }
+  $scope.userId = $window.sessionStorage.getItem('userId');
+
 });
