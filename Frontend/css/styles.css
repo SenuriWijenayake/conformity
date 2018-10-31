@@ -97,7 +97,16 @@
   visibility: hidden;
 }
 .form-styles{
-  margin-top:40px;
+  margin-top:13%;
+}
+.submit-button{
+  height: 35px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .chartdiv{
   margin-left: -40px;
@@ -118,6 +127,28 @@
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 20px;
+}
+.change-text{
+  text-align: center;
+  font-size: 20px;
+  color: red;
+  font-weight: 500;
+}
+.yes-button{
+  width: 20%;
+  float: right;
+  height: 35px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+.no-button{
+  width: 20%;
+  float: left;
+  height: 35px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
 }
 .slider {
     -webkit-appearance: none;
