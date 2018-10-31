@@ -75,4 +75,10 @@ exports.processBigFive = function (answers){
 		allScores[trait] = score;
 	}
 	db.saveBigFiveResults (allScores);
-}
+};
+
+//Function to get all big five questions
+exports.getBigFiveQuestions = function (){
+	var questions = db.getBigFiveQuestions();
+	return (questions);
+};

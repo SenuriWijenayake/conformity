@@ -7,6 +7,7 @@ var db = mongoose.connection;
 
 //Importing schemas
 var Result = require('./schemas/result');
+var bigFiveQuestions = require('./bigFiveQuestions');
 
 //Function to save the big five results to the database
 exports.saveBigFiveResults = function(results) {
@@ -22,6 +23,11 @@ exports.saveBigFiveResults = function(results) {
       if (err) throw err;
       console.log('Results saved successfully!');
     });
+};
+
+//Function to get the big five questions
+exports.getBigFiveQuestions = function(){
+  return (bigFiveQuestions);
 };
 
 //Bind connection to error event (to get notification of connection errors)

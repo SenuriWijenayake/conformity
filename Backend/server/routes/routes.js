@@ -22,6 +22,12 @@ var appRouter = function(app) {
     res.status(200).send(result);
   });
 
+  //Endpoint to get the big five questions
+  app.get('/bigFiveQuestions', function(req, res) {
+    data = logic.getBigFiveQuestions();
+    res.status(200).send(data);
+  });
+
   //Endpoint to process the big five data
   app.post('/bigFiveData', function(req, res) {
     console.log("Request received at big five");
