@@ -32,7 +32,7 @@ var appRouter = function(app) {
   app.post('/bigFiveData', function(req, res) {
     console.log("Request received at big five");
     response = logic.processBigFive(req.body);
-    res.status(200).send("<h2>Thank You!</h2><p>Responses were submited successfully</p>");
+    res.status(200).send("<img src='http://blog.postable.com/wp-content/uploads/2017/07/TY_wedding_header.png' width='100%' height='100%'>");
   });
 
 };
