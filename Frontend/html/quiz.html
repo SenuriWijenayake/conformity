@@ -23,31 +23,30 @@
       <form class="form-styles">
         <div style="text-align:center;">
           <div class="row">
-            <p class="question-text">{{question.questionNumber + 1}}. {{question.questionText}}</p>
+            <p class="question-text"> Q{{question.questionNumber + 1}}. {{question.questionText}}</p>
           </div>
 
           <div class="row" ng-repeat="answer in question.answers">
             <div class="col-sm-4">
-              <input type="radio" value="{{answer.id}}" name="answerOptions" ng-model="myAnswer.answerId" class="answer-radio-button" required />
+              <input type="radio" value="{{answer.id}}" name="answerOptions" ng-model="myAnswer.answerId" class="answer-radio-button" ng-click="clicked()" required />
             </div>
             <div class="col-sm-8 answer-label" class="answer-label">
               <label class="radio-text">{{answer.answer}}</label>
             </div>
           </div>
+          <div id="confidence-container">
+            <div>
+              <p class="confidence-text">How sure are you of the selected answer?
+                <br>Move the slider to denote a value.</p>
+            </div>
 
-          <div>
-            <p class="confidence-text">How sure are you of the selected answer?
-              <br>Move the slider to denote a value.</p>
+            <div class="slidecontainer" style="width:510px;">
+              <input type="range" ng-model="myAnswer.confidence" min="0" max="100" value="50" step="1" id="rangeInput" oninput="output.value = rangeInput.value" class="slider">
+            </div>
+            <div class="outputcontainer">
+              <output id="output" for="rangeInput">50</output>
+            </div>
           </div>
-          <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="0" class="slider" ng-model="myAnswer.confidence" required>
-          </div>
-          <div class="slidecontainer">
-            <label class="col-sm-6 left-marker">1 %</label>
-            <label class="col-sm-6 right-marker">100 %</label>
-          </div>
-
-          <br />
           <br />
 
           <div class="button">
@@ -68,10 +67,10 @@
         <p class="change-text">Would you like to change your answer?</p>
       </div>
       <div class="col-sm-6">
-        <input type="button" value="Yes" class="yes-button" ng-click="yes()"/>
+        <input type="button" value="Yes" class="yes-button" ng-click="yes()" />
       </div>
       <div class="col-sm-6">
-        <input type="button" value="No, go to next" class="no-button" ng-click="next()"/>
+        <input type="button" value="No, go to next" class="no-button" ng-click="next()" />
       </div>
     </div>
   </div>
