@@ -253,6 +253,12 @@ app.controller('QuizController', function($scope, $http, $window) {
       $scope.myAnswer.confidence = 50;
       $scope.question = response.data;
 
+      if($scope.question.img){
+        $("#image-container").css("display", "inline");
+      } else {
+        $("#image-container").css("display", "none");
+      }
+
       $("#loader").css("display", "none");
       $("#loader-text").css("display", "none");
       $("#chart_div").css("display", "none");

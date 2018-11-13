@@ -151,9 +151,14 @@
 }
 
 .chartdiv {
-  margin-left: -40px;
+  margin-left: -10px;
 }
-
+.visible-image{
+  display: inline;
+}
+.no-image{
+  display: none;
+}
 .loader-text {
   text-align: center;
   margin-top: 10px;
@@ -161,6 +166,7 @@
 
 .question-text {
   font-size: 23px;
+  padding: 5px;
 }
 
 .radio-text {

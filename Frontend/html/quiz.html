@@ -24,6 +24,9 @@
         <div style="text-align:center;">
           <div class="row">
             <p class="question-text"> Q{{question.questionNumber + 1}}. {{question.questionText}}</p>
+            <div id="image-container" style="display:none;">
+              <img src={{question.img}} style="width:200px; height:200px;">
+            </div>
           </div>
 
           <div class="row" ng-repeat="answer in question.answers">
