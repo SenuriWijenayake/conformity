@@ -35,7 +35,8 @@ exports.saveUser = function(user) {
       genderSpecified : user.genderSpecified,
       age: user.age,
       education: user.education,
-      field : user.field
+      field : user.field,
+      questionSet : user.questionSet
     });
 
     newUser.save(function(err, newUser) {
@@ -54,7 +55,8 @@ exports.saveAnswer = function(answer) {
       oldAnswerId: answer.oldAnswerId,
       oldConfidence: answer.oldConfidence,
       newAnswerId: answer.newAnswerId ? answer.newAnswerId : answer.oldAnswerId,
-      newConfidence: answer.newConfidence ? answer.newConfidence : answer.oldConfidence
+      newConfidence: answer.newConfidence ? answer.newConfidence : answer.oldConfidence,
+      questionSet : answer.questionSet
     });
 
     newAnswer.save(function(err, newAnswer) {

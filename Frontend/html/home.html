@@ -104,6 +104,15 @@
                 <td class="col-sm-6" style="padding-top: 10px;"> <input type="text" placeholder=" e.g. Computer Science" ng-model="user.field" class="input-text" required></td>
               </tr>
 
+              <tr class="row">
+                <td class="col-sm-6 right padding-adjust-labels"> Question Set: <span style="color:red;">*</span> </td>
+                <td class="col-sm-6 padding-adjust-radio"> <input type="radio" name="user.questionSet" ng-model="user.questionSet" value="1" class="radio-button" required> <label class="gender-label"> Set 1 </label></td>
+              </tr>
+              <tr class="row">
+                <td class="col-sm-6 right"></td>
+                <td class="col-sm-6"> <input type="radio" name="user.questionSet" ng-model="user.questionSet" value="2" class="radio-button"> <label class="gender-label"> Set 2 </label></td>
+              </tr>
+
             </table>
             <br>
             <div class="row">

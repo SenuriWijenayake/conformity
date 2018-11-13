@@ -24,7 +24,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   });
 
   $scope.submitDetails = function(user) {
-    if (user.gender && user.age && user.education && user.field && (user.gender == 'specified'? user.genderSpecified : true)) {
+    if (user.questionSet && user.gender && user.age && user.education && user.field && (user.gender == 'specified'? user.genderSpecified : true)) {
       $http({
         method: 'POST',
         url: api + '/user',
@@ -32,6 +32,7 @@ app.controller('HomeController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         $window.sessionStorage.setItem('userId', response.data);
+        $window.sessionStorage.setItem('questionSet', user.questionSet);
         $window.location.href = './quiz.html';
       }, function(error) {
         console.log("Error occured when submitting user details");
@@ -43,38 +44,39 @@ app.controller('HomeController', function($scope, $http, $window) {
 
 app.controller('QuizController', function($scope, $http, $window) {
 
+  $scope.userId = $window.sessionStorage.getItem('userId');
+  $scope.questionSet = $window.sessionStorage.getItem('questionSet');
+  $scope.question = {};
+
+  //Setting the question one
+  $http({
+    method: 'POST',
+    url: api + '/question',
+    data: {set : $scope.questionSet, id : 0},
+    type: JSON,
+  }).then(function(response) {
+    $scope.question = response.data;
+  }, function(error) {
+    console.log("Error occured when getting the first question");
+  });
+
+  //Confirmation message before reload and back
   $window.onbeforeunload = function(e) {
     var dialogText = 'You have unsaved changes. Are you sure you want to leave the site?';
     e.returnValue = dialogText;
     return dialogText;
   };
 
+  //Initialization
   $scope.count = 0;
   $scope.myAnswer = {};
   $scope.myAnswer.confidence = 50;
-  $scope.userId = $window.sessionStorage.getItem('userId');
+  $scope.myAnswer.userId = $scope.userId;
+  $scope.myAnswer.questionSet = $scope.questionSet;
 
+  //Show only when the answer is selected
   $scope.clicked = function() {
     $("#confidence-container").css("display", "block");
-  };
-
-  $scope.question = {
-    "questionNumber": 0,
-    "questionText": "What is the capital of Spain?",
-    "questionImg": null,
-    "answers": [{
-      "answer": "Barcelona",
-      "id": 1
-    }, {
-      "answer": "Madrid",
-      "id": 2
-    }, {
-      "answer": "Seville",
-      "id": 3
-    }, {
-      "answer": "Lisbon",
-      "id": 4
-    }]
   };
 
   $scope.submitAnswer = function() {
@@ -92,6 +94,7 @@ app.controller('QuizController', function($scope, $http, $window) {
       $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
       $scope.myAnswer.questionId = $scope.question.questionNumber;
       $scope.myAnswer.userId = $scope.userId;
+      $scope.myAnswer.questionSet = $scope.questionSet;
 
       $http({
         method: 'POST',
@@ -216,6 +219,7 @@ app.controller('QuizController', function($scope, $http, $window) {
     $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
     $scope.myAnswer.questionId = $scope.question.questionNumber;
     $scope.myAnswer.userId = $scope.userId;
+    $scope.myAnswer.questionSet = $scope.questionSet;
 
     $http({
       method: 'POST',
@@ -239,6 +243,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
     $scope.userId = $window.sessionStorage.getItem('userId');
     var data = {
+      set : $scope.questionSet,
       id: parseInt($scope.myAnswer.questionId) + 1
     };
 

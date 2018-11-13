@@ -6,7 +6,7 @@ var db = require('../db/database');
 //Function to get data for the feedback
 exports.getDataForChart = function(userAnswer) {
 
-  var question = utils.getQuestionByNumber(userAnswer.questionId);
+  var question = utils.getQuestionByNumber(userAnswer.questionSet, userAnswer.questionId);
   var answers = question.answers;
   var sizeValues = utils.randValues(question.isMajority, question.sizeValues);
 
@@ -58,8 +58,14 @@ exports.getAllQuestions = function() {
 };
 
 //Function to get question by Id
-exports.getQuestionById = function(id) {
-  var questions = utils.questions;
+exports.getQuestionBySetAndId = function(set, id) {
+  var questions = [];
+  if (set == "1"){
+    questions = utils.questions;
+  }
+  if (set == "2"){
+    questions = utils.questionsTwo;
+  }
   for (var i = 0; i < questions.length; i++) {
     if(questions[i].questionNumber == id) {
         return (questions[i]);
@@ -115,6 +121,9 @@ exports.saveAnswer = function(ans) {
   answer.oldConfidence = ans.confidence;
   answer.newAnswerId = ans.answerId;
   answer.newConfidence = ans.confidence;
+  answer.questionSet = ans.questionSet;
+
+  console.log(answer);
 
   return new Promise(function(resolve, reject) {
     db.saveAnswer(answer).then(function(answerId) {

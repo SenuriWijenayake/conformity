@@ -8,6 +8,7 @@ var userSchema = new Schema({
   age: String,
   education: String,
   field : String,
+  questionSet : String,
   genderSpecified : {type : String, required: false}
 });
 

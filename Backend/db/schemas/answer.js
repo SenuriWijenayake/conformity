@@ -8,7 +8,8 @@ var answerSchema = new Schema({
   oldAnswerId : Number,
   oldConfidence : Number,
   newAnswerId : Number,
-  newConfidence : Number
+  newConfidence : Number,
+  questionSet : String
 });
 
 var Answer = mongoose.model('Answer', answerSchema);

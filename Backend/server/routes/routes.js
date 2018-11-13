@@ -2,7 +2,7 @@ var logic = require('../code');
 
 var appRouter = function(app) {
   app.post('/chartData', function(req, res) {
-
+    console.log(req.body);
     console.log("Request received at chart data");
     var userAnswer = {};
 
@@ -10,6 +10,7 @@ var appRouter = function(app) {
     userAnswer.questionId = parseInt(req.body.questionId);
     userAnswer.answerId = parseInt(req.body.answerId);
     userAnswer.confidence = parseFloat(req.body.confidence);
+    userAnswer.questionSet = req.body.questionSet;
 
     return new Promise(function(resolve, reject) {
       logic.saveAnswer(userAnswer).then(function(id) {
@@ -29,8 +30,7 @@ var appRouter = function(app) {
 
   //Endpoint to get a question by id
   app.post('/question', function(req, res) {
-    console.log(req.body.id);
-    data = logic.getQuestionById(req.body.id);
+    data = logic.getQuestionBySetAndId(req.body.set, req.body.id);
     result = JSON.stringify(data);
     res.status(200).send(result);
   });
