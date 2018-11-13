@@ -13,29 +13,41 @@ app.controller('BigFiveController', function($scope, $http) {
 });
 
 app.controller('HomeController', function($scope, $http, $window) {
+  $scope.user = {};
+
+  $('#gender-specified').change(function() {
+    if (this.checked) {
+      $('#gender-text').prop('required', true);
+    } else {
+      $('#gender-text').prop('required', false);
+    }
+  });
+
   $scope.submitDetails = function(user) {
-    console.log(user);
-    $http({
-      method: 'POST',
-      url: api + '/user',
-      data: user,
-      type: JSON,
-    }).then(function(response) {
-      $window.sessionStorage.setItem('userId', response.data);
-      $window.location.href = './quiz.html';
-    }, function(error) {
-      console.log("Error occured when loading the big five questions");
-    });
+    if (user.gender && user.age && user.education && user.field && (user.gender == 'specified'? user.genderSpecified : true)) {
+      $http({
+        method: 'POST',
+        url: api + '/user',
+        data: user,
+        type: JSON,
+      }).then(function(response) {
+        $window.sessionStorage.setItem('userId', response.data);
+        $window.location.href = './quiz.html';
+      }, function(error) {
+        console.log("Error occured when submitting user details");
+      });
+    }
+
   };
 });
 
 app.controller('QuizController', function($scope, $http, $window) {
 
   $window.onbeforeunload = function(e) {
-      var dialogText = 'You have unsaved changes. Are you sure you want to leave the site?';
-      e.returnValue = dialogText;
-      return dialogText;
-    };
+    var dialogText = 'You have unsaved changes. Are you sure you want to leave the site?';
+    e.returnValue = dialogText;
+    return dialogText;
+  };
 
   $scope.count = 0;
   $scope.myAnswer = {};

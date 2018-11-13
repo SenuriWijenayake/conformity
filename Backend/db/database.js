@@ -32,8 +32,10 @@ exports.saveUser = function(user) {
   return new Promise(function(resolve, reject) {
     var newUser = new User({
       gender: user.gender,
+      genderSpecified : user.genderSpecified,
       age: user.age,
-      education: user.education
+      education: user.education,
+      field : user.field
     });
 
     newUser.save(function(err, newUser) {
