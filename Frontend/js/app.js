@@ -161,7 +161,12 @@ app.controller('QuizController', function($scope, $http, $window) {
       var options = {
         'width': 640,
         'height': 500,
+        'title' : "See how others have answered this question..",
+        'hAxis' : {
+          'title': 'Selected answer'
+        },
         'vAxis': {
+          'title': '% of other participants',
           'ticks': [{
               v: 0,
               f: '0%'
