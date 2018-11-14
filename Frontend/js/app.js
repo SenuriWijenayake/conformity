@@ -24,7 +24,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   });
 
   $scope.submitDetails = function(user) {
-    if (user.questionSet && user.gender && user.age && user.education && user.field && (user.gender == 'specified'? user.genderSpecified : true)) {
+    if (user.questionSet && user.gender && user.age && user.education && user.field && (user.gender == 'specified' ? user.genderSpecified : true)) {
       $http({
         method: 'POST',
         url: api + '/user',
@@ -47,12 +47,20 @@ app.controller('QuizController', function($scope, $http, $window) {
   $scope.userId = $window.sessionStorage.getItem('userId');
   $scope.questionSet = $window.sessionStorage.getItem('questionSet');
   $scope.question = {};
+  $scope.sliderChanged = false;
+
+  $("input[type='range']").change(function() {
+    $scope.sliderChanged = true;
+  });
 
   //Setting the question one
   $http({
     method: 'POST',
     url: api + '/question',
-    data: {set : $scope.questionSet, id : 0},
+    data: {
+      set: $scope.questionSet,
+      id: 0
+    },
     type: JSON,
   }).then(function(response) {
     $scope.question = response.data;
@@ -80,7 +88,7 @@ app.controller('QuizController', function($scope, $http, $window) {
   };
 
   $scope.submitAnswer = function() {
-    if ($scope.myAnswer.confidence != 50) {
+    if ($scope.sliderChanged) {
 
       //Remove the button
       $("#submit-button").css("display", "none");
@@ -243,7 +251,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
     $scope.userId = $window.sessionStorage.getItem('userId');
     var data = {
-      set : $scope.questionSet,
+      set: $scope.questionSet,
       id: parseInt($scope.myAnswer.questionId) + 1
     };
 
@@ -255,10 +263,10 @@ app.controller('QuizController', function($scope, $http, $window) {
     }).then(function(response) {
 
       $scope.myAnswer = {};
-      $scope.myAnswer.confidence = 50;
+      $scope.sliderChanged = false;
       $scope.question = response.data;
 
-      if($scope.question.img){
+      if ($scope.question.img) {
         $("#image-container").css("display", "inline");
       } else {
         $("#image-container").css("display", "none");
