@@ -51,6 +51,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   $("input[type='range']").change(function() {
     $scope.sliderChanged = true;
+    $("#output").css("color", "green");
   });
 
   //Setting the question one
@@ -89,7 +90,6 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   $scope.submitAnswer = function() {
     if ($scope.sliderChanged) {
-
       //Remove the button
       $("#submit-button").css("display", "none");
       //Disbling the input
@@ -264,6 +264,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
       $scope.myAnswer = {};
       $scope.sliderChanged = false;
+      $scope.myAnswer.confidence = 50;
       $scope.question = response.data;
 
       if ($scope.question.img) {
@@ -277,6 +278,8 @@ app.controller('QuizController', function($scope, $http, $window) {
       $("#chart_div").css("display", "none");
       $("#change-section").css("display", "none");
       $("#submit-button").prop("disabled", false);
+      $("#output").val("Not Specified");
+      $("#output").css("color", "red");
 
     }, function(error) {
       console.log("Error occured when loading the question");

@@ -83,6 +83,7 @@ exports.getQuestionByNumber = function(set, number){
 //Returns the unselected answers in the ranked order
 exports.getUnselectedAnswersOrdered = function (allAnswers, selectedId, order){
 	var others = [];
+  console.log(allAnswers, selectedId, order);
 	for (var i = 0; i < allAnswers.length; i++) {
 		if (allAnswers[i].id != selectedId) {
 			others.push(allAnswers[i]);

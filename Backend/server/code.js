@@ -16,7 +16,7 @@ exports.getDataForChart = function(userAnswer) {
   var selected = utils.getAnswerById(answers, userAnswer.answerId);
   selected.value = sizeValues[0];
   final.push(selected);
-
+  console.log(final);
   //Get other answers
   var others = utils.getUnselectedAnswersOrdered(answers, userAnswer.answerId, question.correctOrder);
 
