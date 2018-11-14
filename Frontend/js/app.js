@@ -65,6 +65,11 @@ app.controller('QuizController', function($scope, $http, $window) {
     type: JSON,
   }).then(function(response) {
     $scope.question = response.data;
+    if ($scope.question.img) {
+      $("#image-container").css("display", "inline");
+    } else {
+      $("#image-container").css("display", "none");
+    }
   }, function(error) {
     console.log("Error occured when getting the first question");
   });
