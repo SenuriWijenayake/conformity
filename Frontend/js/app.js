@@ -166,7 +166,7 @@ app.controller('QuizController', function($scope, $http, $window) {
           'title': 'Selected answer'
         },
         'vAxis': {
-          'title': '% of other participants',
+          'title': '% of votes by others',
           'ticks': [{
               v: 0,
               f: '0%'
