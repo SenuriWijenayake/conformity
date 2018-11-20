@@ -161,8 +161,11 @@ app.controller('QuizController', function($scope, $http, $window) {
       var options = {
         'width': 640,
         'height': 500,
-        'title' : "See how others have answered this question..",
-        'hAxis' : {
+        'title': "See how others have answered this question..",
+        'titleTextStyle': {
+          fontSize: 16
+        },
+        'hAxis': {
           'title': 'Selected answer'
         },
         'vAxis': {
@@ -227,6 +230,12 @@ app.controller('QuizController', function($scope, $http, $window) {
 
     //Remove change section buttons
     $("#change-section").css("display", "none");
+
+    //Set the confidence to 50
+    $scope.myAnswer.confidence = 50;
+    $("#output").val("Not Specified");
+    $("#output").css("color", "red");
+
   };
 
   $scope.update = function() {
