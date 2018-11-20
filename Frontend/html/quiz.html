@@ -19,61 +19,76 @@
 
 <body>
   <div ng-app="app" ng-controller="QuizController">
-    <div class="col-sm-6">
-      <form class="form-styles">
-        <div style="text-align:center;">
-          <div class="row">
-            <p class="question-text"> Q{{question.questionNumber + 1}}. {{question.questionText}}</p>
-            <div id="image-container" style="margin-bottom: 15px;">
-              <img src={{question.img}} style="width:200px; height:200px;">
-            </div>
-          </div>
-
-          <div class="row" ng-repeat="answer in question.answers">
-            <div class="col-sm-4">
-              <input type="radio" value="{{answer.id}}" name="answerOptions" ng-model="myAnswer.answerId" class="answer-radio-button" ng-click="clicked()" required />
-            </div>
-            <div class="col-sm-8 answer-label" class="answer-label">
-              <label class="radio-text">{{answer.answer}}</label>
-            </div>
-          </div>
-          <div id="confidence-container">
-            <div>
-              <p class="confidence-text">How sure are you of the selected answer?
-                <br>Move the slider to denote a value.</p>
+    <div class="row">
+      <div class="col-sm-6">
+        <form class="form-styles">
+          <div style="text-align:center;">
+            <div class="row">
+              <p class="question-text"> Q{{question.questionNumber + 1}}. {{question.questionText}}</p>
+              <div id="image-container" style="margin-bottom: 15px;">
+                <img src={{question.img}} style="width:200px; height:200px;">
+              </div>
             </div>
 
-            <div class="slidecontainer" style="width:510px;">
-              <input type="range" ng-model="myAnswer.confidence" min="0" max="100" value="50" step="1" id="rangeInput" oninput="output.value = rangeInput.value" class="slider">
+            <div class="row" ng-repeat="answer in question.answers">
+              <div class="col-sm-4">
+                <input type="radio" value="{{answer.id}}" name="answerOptions" ng-model="myAnswer.answerId" class="answer-radio-button" ng-click="clicked()" required />
+              </div>
+              <div class="col-sm-8 answer-label" class="answer-label">
+                <label class="radio-text">{{answer.answer}}</label>
+              </div>
             </div>
-            <div class="outputcontainer">
-              <output id="output" for="rangeInput">Not Selected</output>
-            </div>
-          </div>
-          <br />
+            <div id="confidence-container">
+              <div>
+                <p class="confidence-text">How sure are you of the selected answer?
+                  <br>Move the slider to denote a value.</p>
+              </div>
 
-          <div class="button">
-            <input id="submit-button" class="submit-button" type="submit" ng-click="(count == 0) ? submitAnswer() : update()" />
+              <div class="slidecontainer" style="width:510px;">
+                <input type="range" ng-model="myAnswer.confidence" min="0" max="100" value="50" step="1" id="rangeInput" oninput="output.value = rangeInput.value" class="slider">
+              </div>
+              <div class="outputcontainer">
+                <output id="output" for="rangeInput">Not Selected</output>
+              </div>
+            </div>
+            <br />
+
+            <div class="button">
+              <input id="submit-button" class="submit-button" type="submit" ng-click="(count == 0) ? submitAnswer() : update()" />
+            </div>
           </div>
+        </form>
+      </div>
+
+      <div class="col-sm-6 chartdiv" id="chart-area">
+        <div id="chart_div" style="display: none;margin-left: 24%;"></div>
+        <div id="loader" style="display: none;" class="loader"></div>
+        <div id="loader-text" style="display: none;" class="loader-text">Loading results.. Please wait.</div>
+      </div>
+    </div>
+    <div class="row">
+      <div id="change-section" class="col-sm-6" style="margin-bottom:50px;display:none;float:left">
+        <div id="descr">
+          <p class="change-text">Would you like to change your answer?</p>
         </div>
-      </form>
-    </div>
-
-    <div class="col-sm-6 chartdiv" id="chart-area">
-      <div id="chart_div" style="display: none;"></div>
-      <div id="loader" style="display: none;" class="loader"></div>
-      <div id="loader-text" style="display: none;" class="loader-text">Loading results.. Please wait.</div>
-    </div>
-
-    <div id="change-section" class="col-sm-12" style="margin-bottom:50px;display:none;">
-      <div id="descr">
-        <p class="change-text">Would you like to change your answer?</p>
+        <div class="col-sm-6">
+          <input type="button" value="Yes" class="yes-button" ng-click="yes()" />
+        </div>
+        <div class="col-sm-6">
+          <input type="button" value="No, go to next" class="no-button" ng-click="next()" />
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input type="button" value="Yes" class="yes-button" ng-click="yes()" />
+      <div class="col-sm-6"></div>
+    </div>
+    <div class="chatarea col-sm-6" id="chat-area">
+      <div class="textarea">
+        <div ng-repeat="line in history">
+          <b>{{line.name}} :</b> {{line.msg}}
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input type="button" value="No, go to next" class="no-button" ng-click="next()" />
+      <div class="inputarea">
+        <input type="text" ng-model="message" id="chat-text" placeholder="Hello!.." class="text-box">
+        <button ng-click="sendMessage()">Send</button>
       </div>
     </div>
   </div>

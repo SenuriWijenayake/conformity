@@ -49,6 +49,9 @@ app.controller('QuizController', function($scope, $http, $window) {
   $scope.question = {};
   $scope.sliderChanged = false;
 
+  //Chatbot related variables
+  $scope.history = [{name : "QuizBot", msg : "Hi! I am the QuizBot! I can help you with the quiz."}];
+
   $("input[type='range']").change(function() {
     $scope.sliderChanged = true;
     $("#output").css("color", "green");
@@ -159,8 +162,8 @@ app.controller('QuizController', function($scope, $http, $window) {
 
       // Set chart options
       var options = {
-        'width': 640,
-        'height': 500,
+        'width': 500,
+        'height': 370,
         'title': "See how others have answered this question..",
         'titleTextStyle': {
           fontSize: 16
@@ -303,6 +306,12 @@ app.controller('QuizController', function($scope, $http, $window) {
     }, function(error) {
       console.log("Error occured when loading the question");
     });
+
+  };
+
+  $scope.sendMessage = function() {
+    $scope.history.push({name: "You", msg: $scope.message.toString()});
+    $scope.message = "";
 
   };
 });
