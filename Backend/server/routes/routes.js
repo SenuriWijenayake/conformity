@@ -75,8 +75,9 @@ var appRouter = function(app) {
     });
   });
 
-  app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+  app.post('/chat', function (req, res) {
+    console.log(req.body);
+    res.status(200).send("Response from Quiz Bot");
   });
 
 };

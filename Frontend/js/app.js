@@ -50,7 +50,10 @@ app.controller('QuizController', function($scope, $http, $window) {
   $scope.sliderChanged = false;
 
   //Chatbot related variables
-  $scope.history = [{name : "QuizBot", msg : "Hi! I am the QuizBot! I can help you with the quiz."}];
+  $scope.history = [{
+    name: "QuizBot",
+    msg: "Hi! I am the QuizBot! I can help you with the quiz."
+  }];
 
   $("input[type='range']").change(function() {
     $scope.sliderChanged = true;
@@ -310,10 +313,35 @@ app.controller('QuizController', function($scope, $http, $window) {
   };
 
   $scope.sendMessage = function() {
-    $scope.history.push({name: "You", msg: $scope.message.toString()});
-    var element = document.getElementById("text-area");
-    element.scrollTop = element.scrollHeight;
-    $scope.message = "";
+    if ($scope.message != undefined) {
+      $scope.history.push({
+        name: "You",
+        msg: $scope.message.toString()
+      });
+      var element = document.getElementById("text-area");
+      element.scrollTop = element.scrollHeight;
 
+      //Process the chat request
+      $scope.userId = $window.sessionStorage.getItem('userId');
+      $scope.questionSet = $window.sessionStorage.getItem('questionSet');
+
+      $http({
+        method: 'POST',
+        url: api + '/chat',
+        data: {user: $scope.userId, set: $scope.questionSet, question: $scope.question, msg: $scope.message},
+        type: JSON,
+      }).then(function(response) {
+        $scope.message = "";
+        $scope.history.push({
+          name: "QuizBot",
+          msg: response.data.toString()
+        });
+        element.scrollTop = element.scrollHeight;
+      }, function(error) {
+        console.log("Error occured in the QuizBot");
+      });
+      $scope.message = "";
+
+    }
   };
 });
