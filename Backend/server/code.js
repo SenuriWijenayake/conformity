@@ -16,7 +16,7 @@ exports.getDataForChart = function(userAnswer) {
   var selected = utils.getAnswerById(answers, userAnswer.answerId);
   selected.value = sizeValues[0];
   final.push(selected);
-  console.log(final);
+
   //Get other answers
   var others = utils.getUnselectedAnswersOrdered(answers, userAnswer.answerId, question.correctOrder);
 
@@ -31,9 +31,17 @@ exports.getDataForChart = function(userAnswer) {
     return a.id - b.id
   });
 
+  var chartDescriptionData = {};
+  chartDescriptionData.isMajority = question.isMajority;
+  chartDescriptionData.selected = selected;
+  chartDescriptionData.others = others
+
+
   var res = {};
   res.answers = final;
   res.question = question.questionText;
+  res.description = utils.getChartDescription(chartDescriptionData);
+
   console.log(res);
   return (res);
 };
@@ -60,15 +68,15 @@ exports.getAllQuestions = function() {
 //Function to get question by Id
 exports.getQuestionBySetAndId = function(set, id) {
   var questions = [];
-  if (set == "1"){
+  if (set == "1") {
     questions = utils.questions;
   }
-  if (set == "2"){
+  if (set == "2") {
     questions = utils.questionsTwo;
   }
   for (var i = 0; i < questions.length; i++) {
-    if(questions[i].questionNumber == id) {
-        return (questions[i]);
+    if (questions[i].questionNumber == id) {
+      return (questions[i]);
     }
   }
 };

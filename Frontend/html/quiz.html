@@ -20,7 +20,7 @@
 <body>
   <div ng-app="app" ng-controller="QuizController">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6" id="question-area" style="display:none;">
         <form class="form-styles">
           <div style="text-align:center;">
             <div class="row">
@@ -54,7 +54,7 @@
             <br />
 
             <div class="button">
-              <input id="submit-button" class="submit-button" type="submit" ng-click="(count == 0) ? submitAnswer() : update()" />
+              <input id="submit-button" style="display:none;" class="submit-button" type="submit" ng-click="(count == 0) ? submitAnswer() : update()" />
             </div>
           </div>
         </form>

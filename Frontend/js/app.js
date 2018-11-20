@@ -51,9 +51,14 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   //Chatbot related variables
   $scope.history = [{
-    name: "QuizBot",
-    msg: "Hi! I am the QuizBot! I can help you with the quiz."
-  }];
+      name: "QuizBot",
+      msg: "Hi! I am the QuizBot! I can help you answer the questions in this quiz."
+    },
+    {
+      name: "QuizBot",
+      msg: "This quiz contains 34 subjective and objective MCQ questions. Subjective questions will ask for your opinion and objective questions will test your IQ. To get started, enter 'GO'."
+    }
+  ];
 
   $("input[type='range']").change(function() {
     $scope.sliderChanged = true;
@@ -97,6 +102,11 @@ app.controller('QuizController', function($scope, $http, $window) {
   //Show only when the answer is selected
   $scope.clicked = function() {
     $("#confidence-container").css("display", "block");
+    $("#submit-button").css("display", "block");
+    $scope.history.push({
+      name: "QuizBot",
+      msg: "Move the slider to show how sure you are of the selected answer. Click on submit when done!"
+    });
   };
 
   $scope.submitAnswer = function() {
@@ -125,6 +135,17 @@ app.controller('QuizController', function($scope, $http, $window) {
         setTimeout(function() {
           $scope.createChart(response.data);
         }, 3000);
+
+        //Setting the answer
+        $scope.history.push(response.data.description);
+        $scope.history.push({
+          name: "QuizBot",
+          msg: "Would you like to change your answer? Type 'YES' to make a change or 'NO' to go to the next question."
+        });
+
+        var element = document.getElementById("text-area");
+        element.scrollTop = element.scrollHeight;
+
       }, function(error) {
         console.log("Error occured when loading the chart");
       });
@@ -146,7 +167,6 @@ app.controller('QuizController', function($scope, $http, $window) {
     $("#change-section").css("display", "block");
 
     function drawChart() {
-
       // Create the data table.
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Answer');
@@ -228,6 +248,13 @@ app.controller('QuizController', function($scope, $http, $window) {
   };
 
   $scope.yes = function() {
+    $scope.history.push({
+      name: "QuizBot",
+      msg: "You can now change your answer and confidence. Click on 'Submit' to confirm your answer."
+    });
+    var element = document.getElementById("text-area");
+    element.scrollTop = element.scrollHeight;
+
     $scope.count = 1;
     //Make the submit button visible and the input enabled
     $("input[type=radio]").attr('disabled', false);
@@ -239,35 +266,40 @@ app.controller('QuizController', function($scope, $http, $window) {
 
     //Set the confidence to 50
     $scope.myAnswer.confidence = 50;
+    $scope.sliderChanged = false;
     $("#output").val("Not Specified");
     $("#output").css("color", "red");
 
   };
 
   $scope.update = function() {
-    //Disable the button
-    $("#submit-button").attr("disabled", "disabled");
-    $("#confidence-container").css("display", "none");
 
-    $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
-    $scope.myAnswer.questionId = $scope.question.questionNumber;
-    $scope.myAnswer.userId = $scope.userId;
-    $scope.myAnswer.questionSet = $scope.questionSet;
+    if ($scope.sliderChanged) {
+      //Disable the button
+      $("#submit-button").attr("disabled", "disabled");
+      $("#confidence-container").css("display", "none");
 
-    $http({
-      method: 'POST',
-      url: api + '/updateAnswer',
-      data: $scope.myAnswer,
-      type: JSON,
-    }).then(function(response) {
-      $scope.next();
-    }, function(error) {
-      console.log("Error occured when updating the answers");
-    });
+      $scope.myAnswer.answerId = parseInt($scope.myAnswer.answerId);
+      $scope.myAnswer.questionId = $scope.question.questionNumber;
+      $scope.myAnswer.userId = $scope.userId;
+      $scope.myAnswer.questionSet = $scope.questionSet;
+
+      $http({
+        method: 'POST',
+        url: api + '/updateAnswer',
+        data: $scope.myAnswer,
+        type: JSON,
+      }).then(function(response) {
+        $scope.next();
+      }, function(error) {
+        console.log("Error occured when updating the answers");
+      });
+    }
   };
 
   $scope.next = function() {
     $scope.count = 0;
+
     //Make the submit button visible and the input enabled
     $("input[type=radio]").attr('disabled', false);
     $("input[type=range]").attr('disabled', false);
@@ -292,6 +324,13 @@ app.controller('QuizController', function($scope, $http, $window) {
       $scope.myAnswer.confidence = 50;
       $scope.question = response.data;
 
+      $scope.history.push({
+        name: "QuizBot",
+        msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34)."
+      });
+      var element = document.getElementById("text-area");
+      element.scrollTop = element.scrollHeight;
+
       if ($scope.question.img) {
         $("#image-container").css("display", "inline");
       } else {
@@ -312,6 +351,11 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   };
 
+  //Chatbot function to start the quiz
+  $scope.go = function() {
+    $("#question-area").css("display", "inline");
+  }
+
   $scope.sendMessage = function() {
     if ($scope.message != undefined) {
       $scope.history.push({
@@ -321,27 +365,43 @@ app.controller('QuizController', function($scope, $http, $window) {
       var element = document.getElementById("text-area");
       element.scrollTop = element.scrollHeight;
 
-      //Process the chat request
-      $scope.userId = $window.sessionStorage.getItem('userId');
-      $scope.questionSet = $window.sessionStorage.getItem('questionSet');
-
-      $http({
-        method: 'POST',
-        url: api + '/chat',
-        data: {user: $scope.userId, set: $scope.questionSet, question: $scope.question, msg: $scope.message},
-        type: JSON,
-      }).then(function(response) {
+      //If the request is to go to next question
+      if ($scope.message == 'YES' || $scope.message == 'yes' || $scope.message == 'Yes') {
+        $scope.yes();
         $scope.message = "";
-        $scope.history.push({
-          name: "QuizBot",
-          msg: response.data.toString()
-        });
-        element.scrollTop = element.scrollHeight;
-      }, function(error) {
-        console.log("Error occured in the QuizBot");
-      });
-      $scope.message = "";
+      } else if ($scope.message == 'NO' || $scope.message == 'no' || $scope.message == 'No') {
+        $scope.next();
+        $scope.message = "";
+      } else if ($scope.message == 'GO' || $scope.message == 'go' || $scope.message == 'Go') {
+        $scope.go();
+        $scope.message = "";
+      } else {
+        //Process the chat request
+        $scope.userId = $window.sessionStorage.getItem('userId');
+        $scope.questionSet = $window.sessionStorage.getItem('questionSet');
 
+        $http({
+          method: 'POST',
+          url: api + '/chat',
+          data: {
+            user: $scope.userId,
+            set: $scope.questionSet,
+            question: $scope.question,
+            msg: $scope.message
+          },
+          type: JSON,
+        }).then(function(response) {
+          $scope.message = "";
+          $scope.history.push({
+            name: "QuizBot",
+            msg: response.data.toString()
+          });
+          element.scrollTop = element.scrollHeight;
+        }, function(error) {
+          console.log("Error occured in the QuizBot");
+        });
+        $scope.message = "";
+      }
     }
   };
 });

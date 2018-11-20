@@ -119,3 +119,44 @@ exports.areArraysEqual = function(arr1, arr2){
   }
   return(true);
 }
+
+exports.getChartDescription = function (data){
+  console.log(data);
+  var text = "";
+
+  //Determine how many minorities are there
+  var noZeroes = [];
+  for (var i = 0; i < data.others.length; i++) {
+    if(data.others[i].value != 0){
+      noZeroes.push(data.others[i]);
+    }
+  }
+  var numOthers = noZeroes.length;
+  console.log(numOthers);
+  //No minorities scenario
+  if(data.isMajority & numOthers == 0){
+    text = "Looks like all the other participants agree with your answer " + data.selected.answer.toString() + " as well!";
+  }
+  //One minority scenario
+  else if(data.isMajority & numOthers == 1){
+    text = "You are in the lead! " + data.selected.value.toString() + "% of the participants agree with your answer " + data.selected.answer.toString() +".";
+    text = text + "However, " + noZeros[0].value.toString() + "% of others have selected " + noZeros[0].answer.toString() + " as the correct answer!";
+  }
+  //Two minorities scenario
+  else if (data.isMajority & numOthers == 2){
+    text = "You are in the lead! " + data.selected.value.toString() + "% of the participants agree with your answer " + data.selected.answer.toString() +".";
+    text = text + "However, " + noZeros[0].value.toString() + "% of others have selected " + noZeros[0].answer.toString() + " and a group of " + noZeros[1].value.toString() + "% has selected " + noZeros[1].answer.toString() + " as the correct answer!";
+  }
+  //One majority
+  else if (!data.isMajority & numOthers == 1){
+    text = "One minority scenario";
+  }
+  //One Majority
+  else if (!data.isMajority & numOthers == 2){
+    text = "Two minorities scenario";
+  }
+  else {
+    text = "Oops! I can't seem to interprete this chart."
+  }
+  return ({name : "QuizBot", msg : text});
+}
