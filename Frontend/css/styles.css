@@ -375,13 +375,18 @@ body {
   bottom: 0;
   right: 0;
   background: #F8F8F8;
+  padding : 0px;
 }
-
+.minimize{
+  border-bottom: grey solid 1px;
+  height: 22px;
+}
 .textarea {
   width: 100%;
   padding: 10px;
-  height: 202px;
+  height: 189px;
   border-bottom: grey solid 1px;
+  overflow-y: scroll;
 }
 
 .inputarea {

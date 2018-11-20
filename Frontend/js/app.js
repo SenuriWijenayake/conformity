@@ -311,6 +311,8 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   $scope.sendMessage = function() {
     $scope.history.push({name: "You", msg: $scope.message.toString()});
+    var element = document.getElementById("text-area");
+    element.scrollTop = element.scrollHeight;
     $scope.message = "";
 
   };

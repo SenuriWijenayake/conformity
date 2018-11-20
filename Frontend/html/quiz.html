@@ -81,7 +81,10 @@
       <div class="col-sm-6"></div>
     </div>
     <div class="chatarea col-sm-6" id="chat-area">
-      <div class="textarea">
+      <div class="minimize">
+        <img onclick="alert()" src="../assets/minimize.png" width="25" height="21" style="float:right;border-left: grey solid 1px;">
+      </div>
+      <div class="textarea" id="text-area">
         <div ng-repeat="line in history">
           <b>{{line.name}} :</b> {{line.msg}}
         </div>
