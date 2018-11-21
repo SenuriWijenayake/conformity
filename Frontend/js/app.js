@@ -62,6 +62,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   $("input[type='range']").change(function() {
     $scope.sliderChanged = true;
+    $("#submit-button").css("display", "block");
     $("#output").css("color", "green");
   });
 
@@ -102,7 +103,6 @@ app.controller('QuizController', function($scope, $http, $window) {
   //Show only when the answer is selected
   $scope.clicked = function() {
     $("#confidence-container").css("display", "block");
-    $("#submit-button").css("display", "block");
     $scope.history.push({
       name: "QuizBot",
       msg: "Move the slider to show how sure you are of the selected answer. Click on submit when done!"
@@ -248,6 +248,7 @@ app.controller('QuizController', function($scope, $http, $window) {
   };
 
   $scope.yes = function() {
+    $("#submit-button").css("display", "none");
     $scope.history.push({
       name: "QuizBot",
       msg: "You can now change your answer and confidence. Click on 'Submit' to confirm your answer."
@@ -256,10 +257,9 @@ app.controller('QuizController', function($scope, $http, $window) {
     element.scrollTop = element.scrollHeight;
 
     $scope.count = 1;
-    //Make the submit button visible and the input enabled
+    //Make the input enabled
     $("input[type=radio]").attr('disabled', false);
     $("input[type=range]").attr('disabled', false);
-    $("#submit-button").css("display", "block");
 
     //Remove change section buttons
     $("#change-section").css("display", "none");
@@ -269,7 +269,6 @@ app.controller('QuizController', function($scope, $http, $window) {
     $scope.sliderChanged = false;
     $("#output").val("Not Specified");
     $("#output").css("color", "red");
-
   };
 
   $scope.update = function() {
@@ -300,10 +299,10 @@ app.controller('QuizController', function($scope, $http, $window) {
   $scope.next = function() {
     $scope.count = 0;
 
-    //Make the submit button visible and the input enabled
+    //Make the input enabled and submit invisible
     $("input[type=radio]").attr('disabled', false);
     $("input[type=range]").attr('disabled', false);
-    $("#submit-button").css("display", "block");
+    $("#submit-button").css("display", "none");
     $("#confidence-container").css("display", "none");
 
     $scope.userId = $window.sessionStorage.getItem('userId');
