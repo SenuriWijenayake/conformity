@@ -140,12 +140,12 @@ exports.getChartDescription = function (data){
   //One minority scenario
   else if(data.isMajority & numOthers == 1){
     text = "You are in the lead! " + data.selected.value.toString() + "% of the participants agree with your answer " + data.selected.answer.toString() +".";
-    text = text + "However, " + noZeros[0].value.toString() + "% of others have selected " + noZeros[0].answer.toString() + " as the correct answer!";
+    text = text + "However, " + noZeroes[0].value.toString() + "% of others have selected " + noZeroes[0].answer.toString() + " as the correct answer!";
   }
   //Two minorities scenario
   else if (data.isMajority & numOthers == 2){
     text = "You are in the lead! " + data.selected.value.toString() + "% of the participants agree with your answer " + data.selected.answer.toString() +".";
-    text = text + "However, " + noZeros[0].value.toString() + "% of others have selected " + noZeros[0].answer.toString() + " and a group of " + noZeros[1].value.toString() + "% has selected " + noZeros[1].answer.toString() + " as the correct answer!";
+    text = text + "However, " + noZeroes[0].value.toString() + "% of others have selected " + noZeroes[0].answer.toString() + " and a group of " + noZeroes[1].value.toString() + "% has selected " + noZeroes[1].answer.toString() + " as the correct answer!";
   }
   //One majority
   else if (!data.isMajority & numOthers == 1){
