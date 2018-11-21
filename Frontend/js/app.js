@@ -143,8 +143,7 @@ app.controller('QuizController', function($scope, $http, $window) {
           msg: "Would you like to change your answer? Click on 'YES' to make a change or 'NO' to go to the next question."
         });
 
-        var element = document.getElementById("text-area");
-        element.scrollTop = element.scrollHeight;
+        $scope.scrollAdjust();
 
       }, function(error) {
         console.log("Error occured when loading the chart");
@@ -253,8 +252,7 @@ app.controller('QuizController', function($scope, $http, $window) {
       name: "QuizBot",
       msg: "You can now change your answer and confidence. Click on 'Submit' to confirm your answer."
     });
-    var element = document.getElementById("text-area");
-    element.scrollTop = element.scrollHeight;
+    $scope.scrollAdjust();
 
     $scope.count = 1;
     //Make the input enabled
@@ -327,8 +325,7 @@ app.controller('QuizController', function($scope, $http, $window) {
         name: "QuizBot",
         msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34). If you need my help with words type 'HELP'."
       });
-      var element = document.getElementById("text-area");
-      element.scrollTop = element.scrollHeight;
+      $scope.scrollAdjust();
 
       if ($scope.question.img) {
         $("#image-container").css("display", "inline");
@@ -352,6 +349,13 @@ app.controller('QuizController', function($scope, $http, $window) {
 
   //Chatbot function to start the quiz
   $scope.userState = "ready"; //Ready to start
+
+  //Function to adjust scrolling - not working
+  $scope.scrollAdjust = function() {
+    var element = document.getElementById("text-area");
+    element.scrollTop = element.scrollHeight;
+  };
+
   $scope.go = function() {
     $("#question-area").css("display", "inline");
     $scope.history.push({
@@ -359,6 +363,7 @@ app.controller('QuizController', function($scope, $http, $window) {
       msg: "I can help you understand the question by explaining what certain words in the question mean. If you need my help type 'HELP'."
     });
     $scope.userState = "started"; //Started the quiz
+    $scope.scrollAdjust();
   };
 
   $scope.words = function(words) {
@@ -401,8 +406,7 @@ app.controller('QuizController', function($scope, $http, $window) {
         name: "You",
         msg: $scope.message.toString()
       });
-      var element = document.getElementById("text-area");
-      element.scrollTop = element.scrollHeight;
+      $scope.scrollAdjust();
 
       //Handle requests
       var handle = $scope.message.toLowerCase();
