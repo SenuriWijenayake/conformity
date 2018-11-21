@@ -140,7 +140,7 @@ app.controller('QuizController', function($scope, $http, $window) {
         $scope.history.push(response.data.description);
         $scope.history.push({
           name: "QuizBot",
-          msg: "Would you like to change your answer? Type 'YES' to make a change or 'NO' to go to the next question."
+          msg: "Would you like to change your answer? Click on 'YES' to make a change or 'NO' to go to the next question."
         });
 
         var element = document.getElementById("text-area");
@@ -326,7 +326,7 @@ app.controller('QuizController', function($scope, $http, $window) {
 
       $scope.history.push({
         name: "QuizBot",
-        msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34)."
+        msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34). If you need my help with words type 'HELP'."
       });
       var element = document.getElementById("text-area");
       element.scrollTop = element.scrollHeight;
@@ -352,9 +352,49 @@ app.controller('QuizController', function($scope, $http, $window) {
   };
 
   //Chatbot function to start the quiz
+  $scope.userState = "ready"; //Ready to start
   $scope.go = function() {
     $("#question-area").css("display", "inline");
-  }
+    $scope.history.push({
+      name: "QuizBot",
+      msg: "I can help you understand the question by explaining what certain words in the question mean. If you need my help type 'HELP'."
+    });
+    $scope.userState = "started"; //Started the quiz
+  };
+
+  $scope.words = function(words) {
+    words = [{
+        "key": "capital",
+        "explaination": "This is the main city of the country/state"
+      },
+      {
+        "key": "senuri",
+        "explaination": "My name"
+      },
+      {
+        "key": "Dam",
+        "explaination": "Explanation for Dam"
+      }
+    ];
+    $scope.history.push({
+      name: "QuizBot",
+      msg: "I can explain the following words related to this question."
+    });
+
+    for (var i = 0; i < words.length; i++) {
+      var text = "";
+      text += (i + 1).toString() + " : " + words[i].key;
+      $scope.history.push({
+        msg: text
+      });
+    }
+
+    $scope.history.push({
+      msg: "Type 'EXPLAIN' and the number of the word to find the meaning."
+    });
+
+
+  };
 
   $scope.sendMessage = function() {
     if ($scope.message != undefined) {
@@ -365,40 +405,27 @@ app.controller('QuizController', function($scope, $http, $window) {
       var element = document.getElementById("text-area");
       element.scrollTop = element.scrollHeight;
 
-      //If the request is to go to next question
-      if ($scope.message == 'YES' || $scope.message == 'yes' || $scope.message == 'Yes') {
-        $scope.yes();
-        $scope.message = "";
-      } else if ($scope.message == 'NO' || $scope.message == 'no' || $scope.message == 'No') {
-        $scope.next();
-        $scope.message = "";
-      } else if ($scope.message == 'GO' || $scope.message == 'go' || $scope.message == 'Go') {
-        $scope.go();
-        $scope.message = "";
-      } else {
-        //Process the chat request
-        $scope.userId = $window.sessionStorage.getItem('userId');
-        $scope.questionSet = $window.sessionStorage.getItem('questionSet');
-
-        $http({
-          method: 'POST',
-          url: api + '/chat',
-          data: {
-            user: $scope.userId,
-            set: $scope.questionSet,
-            question: $scope.question,
-            msg: $scope.message
-          },
-          type: JSON,
-        }).then(function(response) {
-          $scope.message = "";
+      //Handle requests
+      var handle = $scope.message.toLowerCase();
+      if (handle == 'go') {
+        if ($scope.userState == "ready") {
+          $scope.go();
+        } else {
           $scope.history.push({
             name: "QuizBot",
-            msg: response.data.toString()
+            msg: "You have already started the quiz."
           });
-          element.scrollTop = element.scrollHeight;
-        }, function(error) {
-          console.log("Error occured in the QuizBot");
+        }
+        $scope.message = "";
+      } else if (handle == 'help') {
+        $scope.words($scope.question.words);
+        $scope.message = "";
+      } else if (handle.includes('explain')) {
+        $scope.message = "";
+      } else {
+        $scope.history.push({
+          name: "QuizBot",
+          msg: "Oops! I don't recognize this command. Please try again."
         });
         $scope.message = "";
       }

@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col-sm-6" id="question-area" style="display:none;">
         <form class="form-styles">
-          <div style="text-align:center;">
+          <div style="text-align:center;padding:15px;">
             <div class="row">
               <p class="question-text"> Q{{question.questionNumber + 1}}. {{question.questionText}}</p>
               <div id="image-container" style="margin-bottom: 15px;">
@@ -85,8 +85,8 @@
         <img onclick="alert()" src="../assets/minimize.png" width="25" height="21" style="float:right;border-left: grey solid 1px;">
       </div>
       <div class="textarea" id="text-area">
-        <div ng-repeat="line in history">
-          <b>{{line.name}} :</b> {{line.msg}}
+        <div ng-repeat="line in history" ng-class="{'last-line':$last}">
+          <b ng-if='line.name'> {{line.name}} : </b> {{line.msg}}
         </div>
       </div>
       <div class="inputarea">

@@ -14,7 +14,9 @@
 .specify-text {
   width: 57%;
 }
-
+.last-line{
+  color : blue;
+}
 .left {
   text-align: left;
   padding: 0px;
