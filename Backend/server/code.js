@@ -34,7 +34,8 @@ exports.getDataForChart = function(userAnswer) {
   var chartDescriptionData = {};
   chartDescriptionData.isMajority = question.isMajority;
   chartDescriptionData.selected = selected;
-  chartDescriptionData.others = others
+  chartDescriptionData.others = others;
+  chartDescriptionData.isObjective = question.isObjective;
 
 
   var res = {};

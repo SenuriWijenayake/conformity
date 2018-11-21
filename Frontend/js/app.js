@@ -362,8 +362,9 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
     $("#question-area").css("display", "inline");
     $scope.history.push({
       name: "QuizBot",
-      msg: "I can help you understand the question by explaining what certain words in the question mean. If you need my help type 'HELP'."
+      msg: "You just started the quiz! As your mentor, I can help you understand the question by explaining what certain words in the question mean. If you need my help type 'HELP'."
     });
+
     $scope.userState = "started"; //Started the quiz
     $scope.scrollAdjust();
   };
