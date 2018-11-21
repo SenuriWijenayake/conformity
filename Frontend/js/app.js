@@ -42,7 +42,7 @@ app.controller('HomeController', function($scope, $http, $window) {
   };
 });
 
-app.controller('QuizController', function($scope, $http, $window) {
+app.controller('QuizController', function($scope, $http, $window, $timeout) {
 
   $scope.userId = $window.sessionStorage.getItem('userId');
   $scope.questionSet = $window.sessionStorage.getItem('questionSet');
@@ -133,24 +133,24 @@ app.controller('QuizController', function($scope, $http, $window) {
         type: JSON,
       }).then(function(response) {
         $scope.myAnswer.answerId = $scope.myAnswer.answerId.toString();
-        setTimeout(function() {
+        $timeout(function() {
           $scope.createChart(response.data);
-          console.log("After chart data");
+          $scope.showSummary(response.data.description);
         }, 3000);
-
-        //Setting the answer
-        $scope.history.push(response.data.description);
-        $scope.history.push({
-          name: "QuizBot",
-          msg: "Would you like to change your answer? Click on 'YES' to make a change or 'NO' to go to the next question."
-        });
-
-        $scope.scrollAdjust();
 
       }, function(error) {
         console.log("Error occured when loading the chart");
       });
     }
+  };
+
+  $scope.showSummary = function(summary) {
+    $scope.history.push(summary);
+    $scope.history.push({
+      name: "QuizBot",
+      msg: "Would you like to change your answer? Click on 'YES' to make a change or 'NO' to go to the next question."
+    });
+    $scope.scrollAdjust();
   };
 
   $scope.createChart = function(chartData) {
@@ -166,7 +166,6 @@ app.controller('QuizController', function($scope, $http, $window) {
 
     $("#chart_div").css("display", "block");
     $("#change-section").css("display", "block");
-    console.log("CHeck here?");
 
     function drawChart() {
       // Create the data table.
@@ -387,8 +386,7 @@ app.controller('QuizController', function($scope, $http, $window) {
         msg: "Type 'EXPLAIN' and the word to find the meaning. e.g. EXPLAIN " + words[0].key
       });
       $scope.message = "";
-    }
-    else {
+    } else {
       $scope.history.push({
         name: "QuizBot",
         msg: "Oops! Seems like there are no words I can help you with in this questions."
