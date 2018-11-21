@@ -108,6 +108,10 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
       name: "QuizBot",
       msg: "Move the slider to show how sure you are of the selected answer. Click on submit when done!"
     });
+    $timeout(function() {
+      console.log("testing scrolladjust");
+      $scope.scrollAdjust();
+    }, 500);
   };
 
   $scope.submitAnswer = function() {
@@ -150,7 +154,9 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
       name: "QuizBot",
       msg: "Would you like to change your answer? Click on 'YES' to make a change or 'NO' to go to the next question."
     });
-    $scope.scrollAdjust();
+    $timeout(function() {
+      $scope.scrollAdjust();
+    }, 500);
   };
 
   $scope.createChart = function(chartData) {
@@ -254,7 +260,9 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
       name: "QuizBot",
       msg: "You can now change your answer and confidence. Click on 'Submit' to confirm your answer."
     });
-    $scope.scrollAdjust();
+    $timeout(function() {
+      $scope.scrollAdjust();
+    }, 500);
 
     $scope.count = 1;
     //Make the input enabled
@@ -327,7 +335,9 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
         name: "QuizBot",
         msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34). If you need my help with words type 'HELP'."
       });
-      $scope.scrollAdjust();
+      $timeout(function() {
+        $scope.scrollAdjust();
+      }, 500);
 
       if ($scope.question.img) {
         $("#image-container").css("display", "inline");
@@ -366,7 +376,9 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
     });
 
     $scope.userState = "started"; //Started the quiz
-    $scope.scrollAdjust();
+    $timeout(function() {
+      $scope.scrollAdjust();
+    }, 500);
   };
 
   $scope.help = function(words) {
@@ -440,7 +452,9 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
         name: "You",
         msg: $scope.message.toString()
       });
-      $scope.scrollAdjust();
+      $timeout(function() {
+        $scope.scrollAdjust();
+      }, 500);
 
       //Handle requests
       var handle = $scope.message.toLowerCase();
