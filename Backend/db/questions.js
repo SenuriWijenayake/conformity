@@ -33,7 +33,13 @@ module.exports = [
       3,
       4
     ],
-    "questionNumber": 0
+    "questionNumber": 0,
+    "words": [
+      {
+        "key": "capital",
+        "explaination": "The city or town that functions as the seat of government and administrative centre of a country or region"
+      }
+    ]
   },
   {
     "questionNumber": 13,
@@ -46,6 +52,12 @@ module.exports = [
       0
     ],
     "questionText": "Single-sex schools are better for students. Do you agree or disagree with this statement?",
+    "words": [
+      {
+        "key": "single-sex",
+        "explaination": "Having either only males or only females"
+      }
+    ],
     "answers": [
       {
         "answer": "Strongly Disagree",
@@ -118,6 +130,12 @@ module.exports = [
       0
     ],
     "questionText": "Democracy is the best form of government. Do you agree or disagree with this statement?",
+    "words": [
+      {
+        "key": "democracy",
+        "explaination": "Government by the people"
+      }
+    ],
     "answers": [
       {
         "answer": "Strongly Disagree",
@@ -224,6 +242,16 @@ module.exports = [
       0
     ],
     "questionText": "Who is the founder of the quantum theory of radiation?",
+    "words": [
+      {
+        "key": "quantum",
+        "explaination": "A discrete quantity of energy"
+      },
+      {
+        "key": "radiation",
+        "explaination": "The emission of energy as electromagnetic waves or as moving subatomic particles"
+      }
+    ],
     "answers": [
       {
         "answer": "S. N. Bose",
@@ -262,6 +290,12 @@ module.exports = [
       0
     ],
     "questionText": "No-one should be able to post online comments anonymously. Do you agree or disagree?",
+    "words": [
+      {
+        "key": "anonymously",
+        "explaination": "In a way that prevents a person from being identified by name"
+      }
+    ],
     "answers": [
       {
         "answer": "Strongly Disagree",
@@ -333,7 +367,13 @@ module.exports = [
       10,
       0
     ],
-    "questionText": "Cameras in public places an invasion of privacy. Do you agree or disagree?",
+    "questionText": "Cameras in public places are an invasion of privacy. Do you agree or disagree?",
+        "words": [
+      {
+        "key": "invasion",
+        "explaination": "An unwelcome intrusion into another's domain"
+      }
+    ],
     "answers": [
       {
         "answer": "Strongly Disagree",
@@ -767,6 +807,12 @@ module.exports = [
       0
     ],
     "questionText": "Homework should be banned for students. Do you agree or disagree?",
+    "words": [
+      {
+        "key": "banned",
+        "explaination": "Officially prevent (someone) from doing something"
+      }
+    ],
     "answers": [
       {
         "answer": "Strongly Disagree",
