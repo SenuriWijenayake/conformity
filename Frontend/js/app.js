@@ -320,7 +320,7 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
     $("#confidence-container").css("display", "none");
 
     //Handling the ending of the quiz and directing to the big five questionnaire
-    if (parseInt($scope.myAnswer.questionId) == 33) {
+    if (parseInt($scope.myAnswer.questionId) == 5) {
       //Disable the confirmation message
       $scope.onbeforeunloadEnabled = false;
       $window.location.href = './big-five.html';
