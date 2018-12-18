@@ -414,7 +414,13 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
     var word = handle.split(" ")[1];
     var words = $scope.question.words;
     for (var i = 0; i < words.length; i++) {
-      if (word.toLowerCase() == words[i].key) {
+      if (word == undefined){
+        $scope.history.push({
+          name: "QuizBot",
+          msg: "I am sorry. Seems like you did not enter a word. Type 'EXPLAIN' and the word to find the meaning. e.g. EXPLAIN " + words[0].key
+        });
+      }
+       else if (word.toLowerCase() == words[i].key) {
         $scope.history.push({
           name: "QuizBot",
           msg: words[i].key + " => " + words[i].explaination
@@ -445,6 +451,20 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
         $scope.message = "";
     }
   };
+
+  //Call sendMessage on Enter
+
+  var chatBox = document.getElementById("chat-text");
+
+  // Execute a function when the user releases a key on the keyboard
+  chatBox.addEventListener("keyup", function(event) {
+   // Cancel the default action, if needed
+   event.preventDefault();
+   // Number 13 is the "Enter" key on the keyboard
+   if (event.keyCode === 13) {
+     document.getElementById("sendButton").click();
+   }
+  });
 
   $scope.sendMessage = function() {
     if ($scope.message != undefined) {
