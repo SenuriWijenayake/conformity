@@ -44,6 +44,7 @@ var appRouter = function(app) {
   //Endpoint to process the big five data
   app.post('/bigFiveData', function(req, res) {
     console.log("Request received at big five");
+    console.log(req.body);
     response = logic.processBigFive(req.body);
     res.status(200).send("<img src='http://blog.postable.com/wp-content/uploads/2017/07/TY_wedding_header.png' width='100%' height='100%'>");
   });

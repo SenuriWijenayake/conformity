@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var resultSchema = new Schema({
+  userId : String,
   Extraversion: Number,
   Agreeableness: Number,
   Conscientiousness: Number,

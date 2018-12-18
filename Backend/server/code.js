@@ -83,7 +83,13 @@ exports.getQuestionBySetAndId = function(set, id) {
 };
 
 //Function to process the big five data
-exports.processBigFive = function(answers) {
+exports.processBigFive = function(result) {
+  var userId = result.userId;
+  delete result["userId"];
+  var answers = result;
+
+  //Save all to the database
+  db.saveBigFiveRaw(userId, answers);
 
   var allScores = {};
 
@@ -103,7 +109,7 @@ exports.processBigFive = function(answers) {
     }
     allScores[trait] = score;
   }
-  db.saveBigFiveResults(allScores);
+  db.saveBigFiveResults(userId, allScores);
 };
 
 //Function to get all big five questions

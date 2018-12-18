@@ -20,13 +20,16 @@
 	<div ng-app="app" ng-controller="BigFiveController">
 		<div class="container">
 			<div class="row" style="text-align:center;">
-				<p>Here are a number of characteristics that may or may not apply to you.
+				<h3>You have successfully completed our quiz!</h3>
+				<br />
+				<p>Given below are a number of characteristics that may or may not apply to you.
 					Indiciate to what extent you agree or disagree with each statement.
 					<p>Select a value for ALL the statements.
 			</div>
 			<br />
 			<div class="question-container">
 				<form action="http://localhost:8080/bigFiveData" method="post">
+					<input type="hidden" name="userId" id="userId">
 					<table>
 						<tr>
 							<th class="statement left">I see Myself as Someone Who...</th>
@@ -38,7 +41,7 @@
 						</tr>
 						<tr ng-repeat="q in questions" ng-class-even="'shaded-tr'">
 							<td>{{q.id}}. {{q.question}}</td>
-							<td><input type="radio" value="1" name="{{q.id}}" class="align-td" required></td>
+							<td><input type="radio" value="1" name="{{q.id}}" class="align-td"></td>
 							<td><input type="radio" value="2" name="{{q.id}}" class="align-td"></td>
 							<td><input type="radio" value="3" name="{{q.id}}" class="align-td"></td>
 							<td><input type="radio" value="4" name="{{q.id}}" class="align-td"></td>

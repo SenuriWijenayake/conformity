@@ -9,11 +9,26 @@ var db = mongoose.connection;
 var Result = require('./schemas/result');
 var User = require('./schemas/user');
 var Answer = require('./schemas/answer');
+var BigFiveRaw = require('./schemas/bigFiveRaw');
 var bigFiveQuestions = require('./bigFiveQuestions');
 
+//Function to save the saw big five results to the database
+exports.saveBigFiveRaw = function(userId, results) {
+  var result = new BigFiveRaw({
+    userId : userId,
+    allAnswers : results
+  });
+
+  result.save(function(err) {
+    if (err) throw err;
+    console.log('Big five raw answers saved successfully!');
+  });
+};
+
 //Function to save the big five results to the database
-exports.saveBigFiveResults = function(results) {
+exports.saveBigFiveResults = function(userId, results) {
   var result = new Result({
+    userId : userId,
     Extraversion: results.Extraversion,
     Agreeableness: results.Agreeableness,
     Conscientiousness: results.Conscientiousness,

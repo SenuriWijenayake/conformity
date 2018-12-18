@@ -1,15 +1,18 @@
 var app = angular.module('app', []);
 var api = 'http://localhost:8080';
 
-app.controller('BigFiveController', function($scope, $http) {
+app.controller('BigFiveController', function($scope, $http, $window) {
   $http({
     method: 'GET',
     url: api + '/bigFiveQuestions'
   }).then(function(response) {
     $scope.questions = response.data;
+    document.getElementById('userId').value = $window.sessionStorage.getItem('userId');
   }, function(error) {
     console.log("Error occured when loading the big five questions");
   });
+
+
 });
 
 app.controller('HomeController', function($scope, $http, $window) {
@@ -48,6 +51,7 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
   $scope.questionSet = $window.sessionStorage.getItem('questionSet');
   $scope.question = {};
   $scope.sliderChanged = false;
+  $scope.onbeforeunloadEnabled = true;
 
   //Chatbot related variables
   $scope.history = [{
@@ -89,9 +93,11 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
 
   //Confirmation message before reload and back
   $window.onbeforeunload = function(e) {
-    var dialogText = 'You have unsaved changes. Are you sure you want to leave the site?';
-    e.returnValue = dialogText;
-    return dialogText;
+    if ($scope.onbeforeunloadEnabled){
+      var dialogText = 'You have unsaved changes. Are you sure you want to leave the site?';
+      e.returnValue = dialogText;
+      return dialogText;
+    }
   };
 
   //Initialization
@@ -313,50 +319,57 @@ app.controller('QuizController', function($scope, $http, $window, $timeout) {
     $("#submit-button").css("display", "none");
     $("#confidence-container").css("display", "none");
 
-    $scope.userId = $window.sessionStorage.getItem('userId');
-    var data = {
-      set: $scope.questionSet,
-      id: parseInt($scope.myAnswer.questionId) + 1
-    };
+    //Handling the ending of the quiz and directing to the big five questionnaire
+    if (parseInt($scope.myAnswer.questionId) == 33) {
+      //Disable the confirmation message
+      $scope.onbeforeunloadEnabled = false;
+      $window.location.href = './big-five.html';
+    }
+    else {
+      $scope.userId = $window.sessionStorage.getItem('userId');
+      var data = {
+        set: $scope.questionSet,
+        id: parseInt($scope.myAnswer.questionId) + 1
+      };
 
-    $http({
-      method: 'POST',
-      url: api + '/question',
-      data: data,
-      type: JSON,
-    }).then(function(response) {
+      $http({
+        method: 'POST',
+        url: api + '/question',
+        data: data,
+        type: JSON,
+      }).then(function(response) {
 
-      $scope.myAnswer = {};
-      $scope.sliderChanged = false;
-      $scope.myAnswer.confidence = 50;
-      $scope.question = response.data;
+        $scope.myAnswer = {};
+        $scope.sliderChanged = false;
+        $scope.myAnswer.confidence = 50;
+        $scope.question = response.data;
 
-      $scope.history.push({
-        name: "QuizBot",
-        msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34). If you need my help with words type 'HELP'."
+        $scope.history.push({
+          name: "QuizBot",
+          msg: "Moving to the next question (" + ($scope.question.questionNumber + 1).toString() + "/34). If you need my help with words type 'HELP'."
+        });
+        $timeout(function() {
+          $scope.scrollAdjust();
+        }, 500);
+
+        if ($scope.question.img) {
+          $("#image-container").css("display", "inline");
+        } else {
+          $("#image-container").css("display", "none");
+        }
+
+        $("#loader").css("display", "none");
+        $("#loader-text").css("display", "none");
+        $("#chart_div").css("display", "none");
+        $("#change-section").css("display", "none");
+        $("#submit-button").prop("disabled", false);
+        $("#output").val("Not Specified");
+        $("#output").css("color", "red");
+
+      }, function(error) {
+        console.log("Error occured when loading the question");
       });
-      $timeout(function() {
-        $scope.scrollAdjust();
-      }, 500);
-
-      if ($scope.question.img) {
-        $("#image-container").css("display", "inline");
-      } else {
-        $("#image-container").css("display", "none");
-      }
-
-      $("#loader").css("display", "none");
-      $("#loader-text").css("display", "none");
-      $("#chart_div").css("display", "none");
-      $("#change-section").css("display", "none");
-      $("#submit-button").prop("disabled", false);
-      $("#output").val("Not Specified");
-      $("#output").css("color", "red");
-
-    }, function(error) {
-      console.log("Error occured when loading the question");
-    });
-
+    }
   };
 
   //Chatbot function to start the quiz
